@@ -23,31 +23,31 @@ Before using **kamer-bot**, ensure you have the following installed:
 
 1. Clone the repository:
 
-   \`\`\`bash
+    ```bash
    git clone https://github.com/yourusername/kamer-bot.git
-   \`\`\`
+    ```
 
 2. Navigate to the project folder:
 
-   \`\`\`bash
+    ```bash
    cd kamer-bot
-   \`\`\`
+    ```
 
 3. Install dependencies:
 
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 4. Create a \`.env\` file to store your environment variables, and set them accordingly. You can use the provided \`.env.example\` file as a template.
 
    Example \`.env\` file:
 
-   \`\`\`plaintext
+    ```plaintext
    KAMERNET_USERNAME=your_username
    KAMERNET_PASSWORD=your_password
    BOT_PARAMETERS='{"max_price": 1000, "min_rooms": 2, "location": "Amsterdam"}'
-   \`\`\`
+   ```
 
 ## Configuration
 
@@ -61,13 +61,13 @@ The bot can be configured by modifying the parameters in the \`.env\` file or by
 
 ### Example Parameters
 
-\`\`\`json
+ ```json
 {
 "max_price": 600,
 "min_rooms": 2,
 "location": "Amsterdam"
 }
-\`\`\`
+ ```
 
 ### Timings
 
@@ -77,9 +77,9 @@ The bot will check Kamernet.net for new listings every 15 minutes by default. Yo
 
 1. Start the bot by running the following command:
 
-   \`\`\`bash
+    ```bash
    npm start
-   \`\`\`
+    ```
 
 2. The bot will begin checking new listings on Kamernet.net and automatically reply to any that match the criteria defined in your \`.env\` file.
 
