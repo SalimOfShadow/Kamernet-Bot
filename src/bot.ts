@@ -1,8 +1,8 @@
 // Imports
-require('dotenv').config();
-import * as puppeteer from 'puppeteer';
+require("dotenv").config();
+import * as puppeteer from "puppeteer";
 
-const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
+const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
 // Setup Puppeteer
 
 (async () => {
@@ -12,7 +12,7 @@ const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
   try {
     browser = await puppeteer.launch({
       headless: isProd,
-      args: ['--disable-blink-features=AutomationControlled'],
+      args: ["--disable-blink-features=AutomationControlled"],
       defaultViewport: null,
     });
 
@@ -21,7 +21,8 @@ const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
 
     // RUN THE SCRIPTS HERE
 
-    await page.goto('https://bot-detector.rebrowser.net');
+    // await page.goto('https://bot-detector.rebrowser.net');
+    await page.goto("https://www.browserscan.net/bot-detection");
     await new Promise((resolve) => setTimeout(resolve, 1244200));
 
     await page.close();
