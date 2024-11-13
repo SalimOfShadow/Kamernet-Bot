@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "puppeteer": "npm:rebrowser-puppeteer@^23.3.1",
+    "puppeteer-core": "npm:rebrowser-puppeteer-core@^23.3.1"
+  }
+}
