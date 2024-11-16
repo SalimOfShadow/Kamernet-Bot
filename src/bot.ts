@@ -2,12 +2,14 @@
 require("dotenv").config({ path: "../.env" });
 import * as puppeteer from "puppeteer";
 import { loginToKamernet } from "./scripts/login";
+import { searchListings } from "./scripts/searchListings";
 
 const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
 
-interface Settings {
+export interface Settings {
   maxPrice: number;
   minRooms: number;
+  listingType: string[];
   location: string;
   interval: number;
   customReplyRoom?: string;
@@ -17,6 +19,7 @@ interface Settings {
 const settings: Settings = {
   maxPrice: Number(process.env.MAX_PRICE || "0"),
   minRooms: Number(process.env.MIN_ROOMS || "1"),
+  listingType: process.env.LISTING_TYPE?.split(",") || [],
   location: process.env.LOCATION || "",
   interval: Number(process.env.INTERVAL || "15"), // Defaults to 15 minutes
   customReplyRoom: process.env.CUSTOM_REPLY_ROOM || "",
@@ -34,6 +37,8 @@ const settings: Settings = {
 
   let browser: puppeteer.Browser;
   let page: puppeteer.Page;
+  searchListings(settings);
+  return;
 
   try {
     browser = await puppeteer.launch({
@@ -47,6 +52,7 @@ const settings: Settings = {
 
     // Interact with the website :
     loginToKamernet(page, email, password);
+    searchListings(settings);
 
     await new Promise((resolve) => setTimeout(resolve, 1244200));
 
