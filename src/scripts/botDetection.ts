@@ -34,7 +34,8 @@ declare global {
   await isolatedContext.dispose();
 
   // Open the rebrowser-bot-detector page to view the test results
-  await page.goto("https://bot-detector.rebrowser.net");
+  // "https://bot.sannysoft.com/" - https://fingerprint.com/products/bot-detection/ - https://bot-detector.rebrowser.net
+  await page.goto("https://www.browserscan.net/bot-detection");
 
   // Allow time to observe the results in the console
   await new Promise((resolve) => setTimeout(resolve, 1235000));
