@@ -16,10 +16,12 @@ export async function loginToKamernet(
     await page.goto("https://kamernet.nl/en", { waitUntil: "networkidle2" });
 
     // Click the Login button
-    await page.waitForSelector("#page-header > nav > button:nth-child(4)", {
+    const loginButtonMainPage: string =
+      "#page-header > nav > button:nth-child(4)";
+    await page.waitForSelector(loginButtonMainPage, {
       visible: true,
     });
-    await page.click("#page-header > nav > button:nth-child(4)", {
+    await page.click(loginButtonMainPage, {
       delay: randomMouseClickDelay(),
     });
 
@@ -42,10 +44,9 @@ export async function loginToKamernet(
 
     // Click the login button and sign in
     await wait(randomNumber(1000, 2000));
-    await page.click(
-      "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch",
-      { delay: randomMouseClickDelay() }
-    );
+    const loginButton: string =
+      "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch";
+    await page.click(loginButton, { delay: randomMouseClickDelay() });
   } catch (err) {
     console.error("An error has accoured");
     console.error(err);

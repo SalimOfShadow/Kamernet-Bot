@@ -61,12 +61,14 @@ const settings: Settings = {
     const searchURL: string = searchListings(settings);
     await wait(randomNumber(500, 1740));
     await page.goto(searchURL, { waitUntil: "networkidle2" });
-    await page.waitForSelector(
-      "#page-content > section:nth-child(2) > div > div:nth-child(3)"
-    );
-    const links = await page.$$eval(
-      "#page-content > section:nth-child(2) > div > div:nth-child(3) a",
-      (anchors) => anchors.map((anchor) => anchor.href)
+
+    const listingGrid: string =
+      "#page-content > section:nth-child(2) > div > div:nth-child(3)";
+
+    await page.waitForSelector(listingGrid);
+
+    const links = await page.$$eval(`${listingGrid} a`, (anchors) =>
+      anchors.map((anchor) => anchor.href)
     );
 
     // Open the listings and send replies
