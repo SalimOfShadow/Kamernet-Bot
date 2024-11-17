@@ -72,10 +72,15 @@ const settings: Settings = {
     );
 
     // Open the listings and send replies
-    links.forEach(async (link) => {
-      const newPage: puppeteer.Page = await openPage(browser, link);
-      await replyToListing(newPage, settings);
-    });
+    for (const link of links) {
+      try {
+        const newPage = await openPage(browser, link);
+        await replyToListing(newPage, settings);
+      } catch (error) {
+        console.error(`Error replying to listing ${link}:`, error);
+      }
+    }
+
     await new Promise((resolve) => setTimeout(resolve, 1244200));
 
     // Close the main page

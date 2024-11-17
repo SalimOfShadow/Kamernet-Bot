@@ -6,6 +6,8 @@ import {
   wait,
 } from "../utils/randomActions";
 
+// TODO - Handle the case where only one listing is present
+
 export async function openPage(browser: Browser, link: string) {
   const newTab = await browser.newPage();
   await newTab.goto(link);
@@ -19,5 +21,17 @@ export async function replyToListing(page: Page, settings: Settings) {
   await wait(randomNumber(1000, 2000));
   // Press the "Contact landlord" button
   await page.click(contactLandlordButton, { delay: randomMouseClickDelay() });
+
+  const replyField: string = "#Message";
+
+  await wait(randomNumber(300, 900));
+
+  await page.focus(replyField);
+
+  // TODO - COPY AND PASTE THE TEXT INSTEAD OF TYPING
+  await page.type(replyField, settings.customReplyRoom || "");
+
   console.log("SHOULD REPLY TO LISTING");
+  await wait(randomNumber(300, 900));
+  await page.close();
 }
