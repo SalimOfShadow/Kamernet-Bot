@@ -1,6 +1,6 @@
-# Kamer-bot
+# Kamernet-Bot
 
-**kamer-bot** is a bot designed to automatically reply to room rental insertions on Kamernet.net. By using predefined parameters, the bot processes new rental listings and responds automatically if the criteria are met.
+**Kamernet-Bot** is a bot designed to automatically reply to room rental insertions on Kamernet.net. By using predefined parameters, the bot processes new rental listings and responds automatically if the criteria are met.
 
 ## Features
 
@@ -14,7 +14,7 @@
 
 ## Requirements
 
-Before using **kamer-bot**, ensure you have the following installed:
+Before using **Kamernet-Bot**, ensure you have the following installed:
 
 - **Node.js** (version 16 or higher)
 - **npm** (Node package manager)
@@ -26,13 +26,13 @@ Before using **kamer-bot**, ensure you have the following installed:
 1.  Clone the repository:
 
     ```
-    git clone https://github.com/yourusername/kamer-bot.git
+    git clone https://github.com/yourusername/Kamernet-Bot.git
     ```
 
 2.  Navigate to the project folder:
 
     ```
-    cd kamer-bot
+    cd Kamernet-Bot
     ```
 
 3.  Install dependencies:
@@ -79,21 +79,21 @@ The bot will check Kamernet.net for new listings every 15 minutes by default. Yo
 
 ## Docker Setup (Optional)
 
-To run **kamer-bot** in Docker:
+To run **Kamernet-Bot** in Docker:
 
 1. Build the Docker image:
 
    ```
-   docker build -t kamer-bot .
+   docker build -t Kamernet-Bot .
    ```
 
 2. Run the Docker container:
 
    ```
-   docker run -d --env-file .env kamer-bot
+   docker run -d --env-file .env Kamernet-Bot
    ```
 
-This will run **kamer-bot** inside a Docker container, using the environment variables from your .env file.
+This will run **Kamernet-Bot** inside a Docker container, using the environment variables from your .env file.
 
 ## License
 
