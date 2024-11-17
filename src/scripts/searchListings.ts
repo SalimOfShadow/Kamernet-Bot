@@ -58,7 +58,10 @@ export function searchListings(settings: Settings) {
 
   const searchLink: string =
     /*pageNo=1&sort=1*/
-    `https://kamernet.nl/en/for-rent/properties-${location}?listingTypes=${listingTypeString}&searchview=1&maxRent=${maxPrice}&minSize=${minSize}&radius=${radius}
+    `https://kamernet.nl/en/for-rent/properties-${location}?listingTypes=${listingTypeString}&searchview=1&maxRent=${maxPrice}&minSize=${minSize}&radius=${
+      radius === "0" ? "1" : radius
+    }
   `;
+  console.log(searchLink);
   return searchLink;
 }
