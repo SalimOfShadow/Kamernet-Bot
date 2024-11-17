@@ -9,7 +9,7 @@
 - Customizable parameters for filtering and replying to listings.
 - Configurable timing for checking listings and sending responses.
 - Logs interactions for tracking purposes.
-- Passes tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Broswer Scan](https://www.browserscan.net/bot-detection) ensuring it behaves like a human and avoids detection,though results may change at any time.
+- Passes tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Broswer Scan](https://www.browserscan.net/bot-detection) ensuring it behaves like a human and avoids detection for now,though results may change at any time.
 - Can be run in Docker for easy deployment.
 
 ## Requirements
@@ -50,14 +50,16 @@ Create a .env file to store your environment variables, and set them accordingly
 
 ### Example .env file parameters:
 
-    KAMERNET_USERNAME=your_username             # Your Kamernet username
-    KAMERNET_PASSWORD=your_password             # Your Kamernet password
-    MAX_PRICE="1000"                            # Maximum price you're willing to pay for rent (in currency of choice)
-    MIN_AREA="2"                                # Minimum surface area in square meters
-    LOCATION="Amsterdam"                        # The desired location for the room (e.g., city or neighborhood)
-    CUSTOM_REPLY_ROOM="Example Reply"           # Custom message for a single room ad
-    CUSTOM_REPLY_APARTMENT="Example Reply"      # Custom message for a whole apartment ad
-    INTERVAL=15                                 # Interval (in minutes) for checking new listings
+    KAMERNET_USERNAME=your_username                                     # Your Kamernet username
+    KAMERNET_PASSWORD=your_password                                     # Your Kamernet password
+    LOCATION="Amsterdam"                                                # The desired location for the room (e.g., city or neighborhood)
+    LISTING_TYPE="room,apartment,studio,anti-squat,student-housing"     # The type of listings you are searching for
+    MAX_PRICE="1000"                                                    # Maximum price you're willing to pay for rent (in currency of choice)
+    MIN_SIZE=2                                                          # Minimum surface area in square meters
+    RADIUS=1                                                            # Maximum radius in km from your selected location
+    CUSTOM_REPLY_ROOM="Example Reply"                                   # Custom message for a single room ad
+    CUSTOM_REPLY_APARTMENT="Example Reply"                              # Custom message for a whole apartment ad
+    INTERVAL=15                                                         # Interval (in minutes) for checking new listings
 
 ### Timings
 
