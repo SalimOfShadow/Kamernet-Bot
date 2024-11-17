@@ -49,7 +49,9 @@ async function contactLandlord(page: Page, settings: Settings) {
   const replyField: string = "#Message";
   const sendMessageButton =
     "body > main > div:nth-child(1) > div.container > div > form > div.barrier-questions__footer > button";
-  await wait(randomNumber(2000, 2001));
+
+  await wait(randomNumber(2000, 2001)); // TODO - FIGURE OUT WHY WE NEED TO WAIT 2 SECONDS TO GUARANTEE THAT THE REPLY FIELD IS LOADED
+
   const messageSelector = await page.$$(replyField);
 
   if (messageSelector.length > 0) {
@@ -68,7 +70,7 @@ async function contactLandlord(page: Page, settings: Settings) {
 
   await page.click(sendMessageButton, { delay: randomMouseClickDelay() });
 
-  console.log(`Replied To The Listing :  ${page.url()}`);
+  console.log(`Replied to this listing :  ${page.url()}`);
   await wait(randomNumber(1000, 2000));
 
   await page.close();
