@@ -1,6 +1,6 @@
 import { Settings } from "../bot";
 
-export async function searchListings(settings: Settings) {
+export function searchListings(settings: Settings) {
   // Parsing the location
   const location: string = settings.location
     .toLocaleLowerCase()
@@ -60,5 +60,5 @@ export async function searchListings(settings: Settings) {
     /*pageNo=1&sort=1*/
     `https://kamernet.nl/en/for-rent/properties-${location}?listingTypes=${listingTypeString}&searchview=1&maxRent=${maxPrice}&minSize=${minSize}&radius=${radius}
   `;
-  console.log(searchLink);
+  return searchLink;
 }

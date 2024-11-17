@@ -1,4 +1,9 @@
-import { randomKeyDelay, randomNumber, wait } from "../utils/randomActions";
+import {
+  randomKeyDelay,
+  randomMouseClickDelay,
+  randomNumber,
+  wait,
+} from "../utils/randomActions";
 import { Page } from "puppeteer";
 
 export async function loginToKamernet(
@@ -14,7 +19,9 @@ export async function loginToKamernet(
     await page.waitForSelector("#page-header > nav > button:nth-child(4)", {
       visible: true,
     });
-    await page.click("#page-header > nav > button:nth-child(4)");
+    await page.click("#page-header > nav > button:nth-child(4)", {
+      delay: randomMouseClickDelay(),
+    });
 
     // Wait for the Login page to load
     await page.waitForSelector("#email");
@@ -23,20 +30,21 @@ export async function loginToKamernet(
     // Type the email and password in the fields
     await wait(randomNumber(400, 1000));
 
-    await page.click("#email");
+    await page.click("#email", { delay: randomMouseClickDelay() });
     await wait(randomNumber(300, 1000));
     await page.type("#email", email, { delay: randomKeyDelay() });
 
     await wait(randomNumber(800, 2000));
 
-    await page.click("#password");
+    await page.click("#password", { delay: randomMouseClickDelay() });
     await wait(randomNumber(300, 1000));
     await page.type("#password", password, { delay: randomKeyDelay() });
 
     // Click the login button and sign in
     await wait(randomNumber(1000, 2000));
     await page.click(
-      "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch"
+      "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch",
+      { delay: randomMouseClickDelay() }
     );
   } catch (err) {
     console.error("An error has accoured");
