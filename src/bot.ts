@@ -7,20 +7,22 @@ import { searchListings } from "./scripts/searchListings";
 const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
 
 export interface Settings {
+  location: string;
+  listingType: string[];
   maxPrice: number;
   minRooms: number;
-  listingType: string[];
-  location: string;
+  radius: number;
   interval: number;
   customReplyRoom?: string;
   customReplyApartment?: string;
 }
 
 const settings: Settings = {
-  maxPrice: Number(process.env.MAX_PRICE || "0"),
-  minRooms: Number(process.env.MIN_ROOMS || "1"),
-  listingType: process.env.LISTING_TYPE?.split(",") || [],
   location: process.env.LOCATION || "",
+  listingType: process.env.LISTING_TYPE?.split(",") || [],
+  maxPrice: Number(process.env.MAX_PRICE || "0"),
+  minRooms: Number(process.env.MIN_SIZE || "0"),
+  radius: Number(process.env.RADIUS || "0"),
   interval: Number(process.env.INTERVAL || "15"), // Defaults to 15 minutes
   customReplyRoom: process.env.CUSTOM_REPLY_ROOM || "",
   customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || "",
