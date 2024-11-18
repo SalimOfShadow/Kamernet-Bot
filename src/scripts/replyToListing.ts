@@ -19,6 +19,8 @@ export async function replyToListing(page: Page, settings: Settings) {
     return;
   }
 
+  await wait(randomNumber(1500, 2000)); // Add a short wait after navigation
+
   // Handles 404 pages
   const pageNotFoundMessage: string =
     "#page-content > section > div > p.MuiTypography-root.MuiTypography-body2.mui-style-15ysfrf";

@@ -7,6 +7,7 @@ import { randomNumber, wait } from "./utils/randomActions";
 import { replyToListing } from "./scripts/replyToListing";
 import { processListings } from "./scripts/processListings";
 import { openPage } from "./scripts/openPage";
+import { processAllPages } from "./scripts/processAllPages";
 
 // Initialize settings
 const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
@@ -83,42 +84,36 @@ async function processListingInterval(
     await loginToKamernet(page, email, password);
 
     // Generate URL and navigate into it
-    const searchURL: any = searchListings(settings);
+    const searchURL: string = searchListings(settings);
 
     await wait(randomNumber(500, 1740));
     await page.goto(searchURL, { waitUntil: "networkidle2" });
 
     // Fetch the number of pages
-
     const lastPageButton: string =
       "#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button"; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
 
-    const availablePages: number = await page.$eval(lastPageButton, (button) =>
-      Number(button.textContent?.trim())
-    );
-
-    async function processAllPages(
-      page: puppeteer.Page,
-      browser: puppeteer.Browser,
-      totalPages: number
-    ) {
-      let pageIndex: number = 1;
-
-      do {
-        const nextPageLink: string = searchURL + `&pageNo=${pageIndex}&sort=1`;
-        await page.goto(nextPageLink, { waitUntil: "networkidle2" });
-        await wait(randomNumber(1200, 2000));
-        await processListings(page, browser, settings);
-        pageIndex++;
-      } while (pageIndex <= totalPages);
-      console.log("All pages have been processed");
-      await page.close();
+    try {
+      const availablePages: number = await page.$eval(
+        lastPageButton,
+        (button) => Number(button.textContent?.trim())
+      );
+      // Process all the possible pages and reply to each insertion
+      if (availablePages !== 0) {
+        await processAllPages(
+          page,
+          browser,
+          availablePages,
+          searchURL,
+          settings
+        );
+        console.log(`Last Page Button Message : ${availablePages}`);
+      }
+    } catch (err) {
+      console.log("No page button found,continuing...");
     }
-    await processAllPages(page, browser, availablePages);
 
-    console.log(`Last Page Button Message : ${availablePages}`);
-
-    // Process and reply to the listings every N minutes
+    // Start the cronjob to reply to search for and reply to new listings every N minutes
 
     await processListingInterval(page, browser, settings);
 
