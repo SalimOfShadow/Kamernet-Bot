@@ -62,6 +62,8 @@ export function searchListings(settings: Settings) {
       radius === "0" ? "1" : radius
     }
   `;
+
   console.log(searchLink);
+
   return searchLink;
 }
