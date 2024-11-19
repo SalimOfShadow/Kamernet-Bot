@@ -11,7 +11,7 @@
 - Logs interactions for tracking purposes.
 - Passes tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Browser Scan](https://www.browserscan.net/bot-detection) ensuring it behaves as much as possible like a human and avoids detection...(**FOR NOW**)! 
 Results may change at any time.
-- Comes with a Dockerfile to build and run the bot on an isolated environment like a VPS.
+- Comes with a Dockerfile to build and run the bot on an separated environment like a VPS.
 
 ## Requirements
 
@@ -19,15 +19,13 @@ Before using **Kamernet-Bot**, ensure you have the following software installed:
 
 - **Node.js** (version 16 or higher)
 - **npm** (Node package manager)
-- **Puppeteer** (for browser automation)
-- **dotenv** (for environment variable management)
 
 ## Installation
 
 1.  Clone the repository:
 
     ```
-    git clone https://github.com/yourusername/Kamernet-Bot.git
+    git clone https://github.com/SalimOfShadow/Kamernet-Bot.git
     ```
     ### Or download the **zip** file. 
 
