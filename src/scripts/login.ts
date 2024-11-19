@@ -1,7 +1,6 @@
 import {
   randomKeyDelay,
   randomMouseClickDelay,
-  randomNumber,
   wait,
 } from "../utils/randomActions";
 import { Page } from "puppeteer";
@@ -30,20 +29,20 @@ export async function loginToKamernet(
     await page.waitForSelector("#password");
 
     // Type the email and password in the fields
-    await wait(randomNumber(400, 1000));
+    await wait(400, 1000);
 
     await page.click("#email", { delay: randomMouseClickDelay() });
-    await wait(randomNumber(300, 1000));
+    await wait(300, 1000);
     await page.type("#email", email, { delay: randomKeyDelay() });
 
-    await wait(randomNumber(800, 2000));
+    await wait(800, 2000);
 
     await page.click("#password", { delay: randomMouseClickDelay() });
-    await wait(randomNumber(300, 1000));
+    await wait(300, 1000);
     await page.type("#password", password, { delay: randomKeyDelay() });
 
     // Click the login button and sign in
-    await wait(randomNumber(1000, 2000));
+    await wait(1000, 2000);
     const loginButton: string =
       "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch";
     await page.click(loginButton, { delay: randomMouseClickDelay() });

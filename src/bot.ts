@@ -4,10 +4,8 @@ import * as puppeteer from "puppeteer";
 import { loginToKamernet } from "./scripts/login";
 import { searchListings } from "./scripts/searchListings";
 import { wait } from "./utils/randomActions";
-import { replyToListing } from "./scripts/replyToListing";
-import { processListings } from "./scripts/processListings";
-import { openPage } from "./scripts/openPage";
 import { processAllPages } from "./scripts/processAllPages";
+import { searchAndReplyInterval } from "./scripts/searchAndReplyInterval";
 
 // Initialize settings
 const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
@@ -21,6 +19,7 @@ export interface Settings {
   interval: number;
   customReplyRoom?: string;
   customReplyApartment?: string;
+  filteredWords?: string[];
 }
 
 const settings: Settings = {
@@ -32,30 +31,13 @@ const settings: Settings = {
   interval: Number(process.env.INTERVAL || "15"), // Defaults to 15 minutes
   customReplyRoom: process.env.CUSTOM_REPLY_ROOM || "",
   customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || "",
+  filteredWords:
+    process.env.FILTERED_WORDS?.split("-").map((word) =>
+      word.trim().toLowerCase()
+    ) || [],
 };
 
 // Helper functions
-
-async function processListingInterval(
-  page: puppeteer.Page,
-  browser: puppeteer.Browser,
-  settings: Settings
-) {
-  try {
-    await page.reload();
-    await wait(1200, 2000);
-    console.log(settings.interval);
-    await processListings(page, browser, settings);
-    console.log("Listing processed successfully.");
-    console.log(settings.interval);
-  } catch (error) {
-    console.error("Encountered an error during the cronjob:", error);
-  } finally {
-    setTimeout(() => {
-      processListingInterval(page, browser, settings);
-    }, settings.interval * 60 * 1000);
-  }
-}
 
 // Launch Puppeteer
 (async () => {
@@ -93,12 +75,12 @@ async function processListingInterval(
     const lastPageButton: string =
       "#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button"; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
 
+    // Process all the possible pages and reply to each insertion
     try {
       const availablePages: number = await page.$eval(
         lastPageButton,
         (button) => Number(button.textContent?.trim())
       );
-      // Process all the possible pages and reply to each insertion
       if (availablePages !== 0) {
         await processAllPages(
           page,
@@ -115,7 +97,7 @@ async function processListingInterval(
 
     // Start the cronjob to reply to search for and reply to new listings every N minutes
 
-    await processListingInterval(page, browser, settings);
+    await searchAndReplyInterval(page, browser, settings);
 
     // Wait before closing
     await new Promise((resolve) => setTimeout(resolve, 1244200));

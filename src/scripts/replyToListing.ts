@@ -1,10 +1,14 @@
-import { Browser, Page } from "puppeteer";
+import { Page } from "puppeteer";
 import { Settings } from "../bot";
 import { randomMouseClickDelay, wait } from "../utils/randomActions";
+import { filterByDescription } from "./filterByDescription";
 
 // TODO - Handle the case where only one listing is present
 
 export async function replyToListing(page: Page, settings: Settings) {
+  // Close the page if a description contains one of the specified words
+  const foundFilteredWord: boolean = await filterByDescription(page, settings);
+  if (foundFilteredWord) return;
   // Close the page if a reply has already been sent
   const messageSentBox: string =
     "#page-content > div.ListingFound_gridContainer__4AReK > div.ListingFound_rightColumn__e5LwV > section > div.Overview_root__4rJz_ > section:nth-child(4) > div";
@@ -39,7 +43,8 @@ export async function replyToListing(page: Page, settings: Settings) {
   await wait(1000, 2000);
 
   await page.click(contactLandlordButton, { delay: randomMouseClickDelay() });
-  // Fill the reply field and send the message to the landlord
+
+  // Fill out the reply field and send a message to the landlord
   await contactLandlord(page, settings);
 }
 
