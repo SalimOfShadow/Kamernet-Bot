@@ -1,6 +1,6 @@
 import { Page, Browser } from "puppeteer";
 import { replyToListing } from "./replyToListing";
-import { randomNumber, wait } from "../utils/randomActions";
+import { wait } from "../utils/randomActions";
 import { Settings } from "../bot";
 import { openPage } from "./openPage";
 export async function processLinks(
@@ -12,7 +12,7 @@ export async function processLinks(
     try {
       const newPage = await openPage(browser, link);
       await replyToListing(newPage, settings);
-      await wait(randomNumber(800, 1000));
+      await wait(800, 1000);
     } catch (error) {
       console.error(`Error replying to listing ${link}:`, error);
     }

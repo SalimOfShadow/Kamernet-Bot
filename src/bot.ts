@@ -3,7 +3,7 @@ require("dotenv").config({ path: "../.env" });
 import * as puppeteer from "puppeteer";
 import { loginToKamernet } from "./scripts/login";
 import { searchListings } from "./scripts/searchListings";
-import { randomNumber, wait } from "./utils/randomActions";
+import { wait } from "./utils/randomActions";
 import { replyToListing } from "./scripts/replyToListing";
 import { processListings } from "./scripts/processListings";
 import { openPage } from "./scripts/openPage";
@@ -43,7 +43,7 @@ async function processListingInterval(
 ) {
   try {
     await page.reload();
-    await wait(randomNumber(1200, 2000));
+    await wait(1200, 2000);
     console.log(settings.interval);
     await processListings(page, browser, settings);
     console.log("Listing processed successfully.");
@@ -86,7 +86,7 @@ async function processListingInterval(
     // Generate URL and navigate into it
     const searchURL: string = searchListings(settings);
 
-    await wait(randomNumber(500, 1740));
+    await wait(500, 1740);
     await page.goto(searchURL, { waitUntil: "networkidle2" });
 
     // Fetch the number of pages

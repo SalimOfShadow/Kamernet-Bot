@@ -4,13 +4,13 @@ export function randomKeyDelay() {
 export function randomMouseClickDelay() {
   return Math.floor(Math.random() * (39 - 101) + 101);
 }
-export function randomNumber(min: number, max: number) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
-export async function wait(time: number) {
+export async function wait(minTime: number, maxTime: number) {
+  function randomNumber(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   return new Promise(function (resolve) {
-    setTimeout(resolve, time);
+    setTimeout(resolve, randomNumber(minTime, maxTime));
   });
 }

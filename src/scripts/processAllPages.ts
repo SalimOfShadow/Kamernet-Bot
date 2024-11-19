@@ -1,5 +1,5 @@
 import { Browser, Page } from "puppeteer";
-import { randomNumber, wait } from "../utils/randomActions";
+import { wait } from "../utils/randomActions";
 import { processListings } from "./processListings";
 import { Settings } from "../bot";
 
@@ -15,7 +15,7 @@ export async function processAllPages(
   do {
     const nextPageLink: string = searchURL + `&pageNo=${pageIndex}&sort=1`;
     await page.goto(nextPageLink, { waitUntil: "networkidle2" });
-    await wait(randomNumber(1200, 2000));
+    await wait(1200, 2000);
     await processListings(page, browser, settings);
     pageIndex++;
   } while (pageIndex <= totalPages);
