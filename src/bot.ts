@@ -6,12 +6,14 @@ import { searchListings } from './scripts/searchListings';
 import { wait } from './utils/randomActions';
 import { processAllPages } from './scripts/processAllPages';
 import { searchAndReplyInterval } from './scripts/searchAndReplyInterval';
+import { handle404 } from './scripts/handle404';
+import { openPage } from './scripts/openPage';
 
 // Initialize settings
 const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
 
 export interface Settings {
-  location: string;
+  location: string[];
   listingType: string[];
   maxPrice: number;
   minRooms: number;
@@ -23,7 +25,7 @@ export interface Settings {
 }
 
 const settings: Settings = {
-  location: process.env.LOCATION || '',
+  location: process.env.LOCATION?.split(',') || [],
   listingType: process.env.LISTING_TYPE?.split(',') || [],
   maxPrice: Number(process.env.MAX_PRICE || '0'),
   minRooms: Number(process.env.MIN_SIZE || '0'),
@@ -73,38 +75,49 @@ const settings: Settings = {
     }
 
     // Generate URL and navigate into it
-    const searchURL: string = searchListings(settings);
 
-    await wait(500, 1740);
-    await page.goto(searchURL, { waitUntil: 'networkidle2' });
+    // TODO - ACCOUNT FOR MULTIPLE POSSIBLE LOCATIONS
+    settings.location.forEach(async (location, index) => {
+      const searchURL: string = searchListings(settings, index);
+      await openPage(browser, searchURL);
+      await wait(500, 1740);
+      await page.goto(searchURL, { waitUntil: 'load' });
 
-    // Fetch the number of pages
-    const lastPageButton: string =
-      '#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button'; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
-
-    // Process all the possible pages and reply to each insertion
-    try {
-      const availablePages: number = await page.$eval(
-        lastPageButton,
-        (button) => Number(button.textContent?.trim())
-      );
-      if (availablePages !== 0) {
-        await processAllPages(
-          page,
-          browser,
-          availablePages,
-          searchURL,
-          settings
-        );
-        console.log(`Last Page Button Message : ${availablePages}`);
+      // Check if the page exists
+      const isPagePresent = await handle404(page);
+      if (!isPagePresent) {
+        await page.close();
+        return;
       }
-    } catch (err) {
-      console.log('No page button found,continuing...');
-    }
 
-    // Start the cronjob to reply to search for and reply to new listings every N minutes
+      // Fetch the number of pages
+      const lastPageButton: string =
+        '#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button'; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
 
-    await searchAndReplyInterval(page, browser, settings);
+      // Process all the possible pages and reply to each insertion
+      try {
+        const availablePages: number = await page.$eval(
+          lastPageButton,
+          (button) => Number(button.textContent?.trim())
+        );
+        if (availablePages !== 0) {
+          await processAllPages(
+            page,
+            browser,
+            availablePages,
+            searchURL,
+            settings
+          );
+          console.log(`Last Page Button Message : ${availablePages}`);
+        }
+      } catch (err) {
+        console.log('No page button found,continuing...');
+      }
+
+      // Start the cronjob to reply to search for and reply to new listings every N minutes
+
+      await searchAndReplyInterval(page, browser, settings);
+    });
 
     // Wait before closing
     await new Promise((resolve) => setTimeout(resolve, 1244200));
@@ -112,7 +125,9 @@ const settings: Settings = {
     // Close the main page
     await page.close();
   } catch (error: unknown) {
-    console.log(error as string);
+    if (error instanceof Error) {
+      console.log(error);
+    }
     setTimeout(async () => {
       if (page) await page.close();
     });

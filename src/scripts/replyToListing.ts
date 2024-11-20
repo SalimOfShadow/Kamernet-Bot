@@ -2,6 +2,7 @@ import { Page } from 'puppeteer';
 import { Settings } from '../bot';
 import { randomMouseClickDelay, wait } from '../utils/randomActions';
 import { filterByDescription } from './filterByDescription';
+import { handle404 } from './handle404';
 
 // TODO - Handle the case where only one listing is present
 
@@ -21,16 +22,9 @@ export async function replyToListing(page: Page, settings: Settings) {
 
   await wait(1500, 2000); // Add a short wait after navigation
 
-  // Handles 404 pages
-  const pageNotFoundMessage: string =
-    '#page-content > section > div > p.MuiTypography-root.MuiTypography-body2.mui-style-15ysfrf';
-  const notAvailableMessage: string = '#page-content > section > h1';
-
-  const pageNotFound = await page.$$(pageNotFoundMessage);
-  const listingNotAvailable = await page.$$(notAvailableMessage);
-
-  if (pageNotFound.length > 0 || listingNotAvailable.length > 0) {
-    console.log('This advert is no longer available.');
+  // Check if the page exists
+  const isPagePresent = await handle404(page);
+  if (!isPagePresent) {
     await page.close();
     return;
   }

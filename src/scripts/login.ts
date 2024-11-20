@@ -44,13 +44,15 @@ export async function loginToKamernet(
 
     // Click the login button and sign in
     await wait(1000, 2000);
+
     const loginButton: string =
       '#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch';
+
     await page.click(loginButton, { delay: randomMouseClickDelay() });
-    console.log('Waiting for navigation');
 
     // Wait a bit for the page to process the login
-    await wait(2000, 2001);
+    console.log('Waiting for navigation');
+    await wait(2000, 3000);
 
     // Check if the login failed (error message visible)
     const invalidCredentialsElement: string = '#form-error';
@@ -59,11 +61,6 @@ export async function loginToKamernet(
     if (invalidCredentials) {
       return false;
     }
-
-    // If no error, wait for the navigation (successful login)
-    console.log('Waiting for navigation');
-    await page.waitForNavigation({ waitUntil: 'networkidle0' });
-    console.log('Finished waiting for navigation');
 
     return true;
   } catch (err: unknown) {
@@ -79,6 +76,7 @@ export async function loginToKamernet(
       }
     } else {
       console.error('An unknown error occurred');
+      console.error(err);
     }
     return false;
   }
