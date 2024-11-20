@@ -9,7 +9,7 @@
 - Customizable parameters for filtering and replying to listings.
 - Configurable timing interval for checking listings and sending responses.
 - Logs interactions for tracking purposes.
-- Passes tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Browser Scan](https://www.browserscan.net/bot-detection) ensuring it behaves as much as possible like a human and avoids detection...(**FOR NOW**)! 
+- Using a [patched version](https://github.com/rebrowser/rebrowser-patches) of Puppeteer, it now passes all the tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Browser Scan](https://www.browserscan.net/bot-detection) ensuring it behaves as much as possible like a human and avoids detection...(**FOR NOW**)! 
 Results may change at any time.
 - Comes with a Dockerfile to build and run the bot on an separated environment like a VPS.
 
