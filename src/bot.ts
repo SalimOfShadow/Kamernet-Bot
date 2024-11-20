@@ -63,7 +63,14 @@ const settings: Settings = {
     page = pages.length === 0 ? await browser.newPage() : pages[0];
 
     // Login
-    await loginToKamernet(page, email, password);
+    const loginResult: boolean = await loginToKamernet(page, email, password);
+
+    if (!loginResult) {
+      console.log('Invalid credentials!');
+      return;
+    } else {
+      console.log('Successfully logged in to Kamernet');
+    }
 
     // Generate URL and navigate into it
     const searchURL: string = searchListings(settings);
