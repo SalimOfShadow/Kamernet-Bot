@@ -1,3 +1,4 @@
+import { logMessage } from '../utils/logMessage';
 import {
   randomKeyDelay,
   randomMouseClickDelay,
@@ -11,6 +12,7 @@ export async function loginToKamernet(
   password: string
 ): Promise<boolean> {
   try {
+    logMessage('Logging in');
     console.log('Logging in...');
     // Load the landing page
     await page.goto('https://kamernet.nl/en', { waitUntil: 'load' });
