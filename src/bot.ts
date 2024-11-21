@@ -10,6 +10,7 @@ import { handle404 } from "./scripts/handle404";
 import { openTab } from "./scripts/openPage";
 import { clearLogs, logMessage } from "./utils/logMessage";
 import { processSingleTab } from "./scripts/processSingleTab";
+import { validateSettings } from "./utils/validateSettings";
 
 // Initialize settings
 const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
@@ -57,6 +58,12 @@ const settings: Settings = {
   let page: puppeteer.Page;
 
   try {
+    // Validate the settings before starting Puppeteer
+    const settingsValid: boolean = validateSettings(settings);
+    if (!settingsValid) {
+      process.exit();
+    }
+
     browser = await puppeteer.launch({
       headless: isProd,
       args: ["--disable-blink-features=AutomationControlled"],
@@ -72,7 +79,7 @@ const settings: Settings = {
 
     if (!loginResult) {
       logMessage("[Error] -  Invalid credentials!", "red");
-      return;
+      process.exit();
     } else {
       logMessage("[Success] -  Successfully logged in to Kamernet", "green");
     }

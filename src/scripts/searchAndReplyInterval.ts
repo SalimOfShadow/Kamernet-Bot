@@ -13,7 +13,6 @@ export async function searchAndReplyInterval(
     // TODO - Write a log message to alert the user of the incoming search ( logMessage("Started searching for rooms in ${location}..."))
     await page.reload();
     await wait(1000, 2000);
-    console.log(settings.interval);
     await processListings(page, browser, settings);
     logMessage(
       "[Info] -  All available listings were successfully processed.",
