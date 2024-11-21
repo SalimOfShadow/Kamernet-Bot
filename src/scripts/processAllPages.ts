@@ -1,7 +1,7 @@
-import { Browser, Page } from "puppeteer";
-import { wait } from "../utils/randomActions";
-import { processListings } from "./processListings";
-import { Settings } from "../bot";
+import { Browser, Page } from 'puppeteer';
+import { wait } from '../utils/randomActions';
+import { processListings } from './processListings';
+import { Settings } from '../bot';
 
 export async function processAllPages(
   page: Page,
@@ -14,12 +14,12 @@ export async function processAllPages(
 
   do {
     const nextPageLink: string = searchURL + `&pageNo=${pageIndex}&sort=1`;
-    await page.goto(nextPageLink, { waitUntil: "networkidle2" });
+    await page.goto(nextPageLink, { waitUntil: 'load', timeout: 31234 });
     await wait(1200, 2000);
     await processListings(page, browser, settings);
     pageIndex++;
   } while (pageIndex <= totalPages);
-  console.log("All pages have been processed");
+  console.log('All pages have been processed');
   // Return to the first page after all the others have been processed
-  await page.goto(searchURL, { waitUntil: "networkidle2" });
+  await page.goto(searchURL, { waitUntil: 'networkidle2', timeout: 33134 });
 }

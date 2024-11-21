@@ -8,6 +8,12 @@ import { logMessage } from '../utils/logMessage';
 // TODO - Handle the case where only one listing is present
 
 export async function replyToListing(page: Page, settings: Settings) {
+  // Check if the page exists
+  const isPagePresent = await handle404(page);
+  if (!isPagePresent) {
+    await page.close();
+    return;
+  }
   // Close the page if a description contains one of the specified words
   const foundFilteredWord: boolean = await filterByDescription(page, settings);
   if (foundFilteredWord) return;
@@ -25,13 +31,6 @@ export async function replyToListing(page: Page, settings: Settings) {
   }
 
   await wait(1500, 2000); // Add a short wait after navigation
-
-  // Check if the page exists
-  const isPagePresent = await handle404(page);
-  if (!isPagePresent) {
-    await page.close();
-    return;
-  }
 
   // Store the URL before navigating to the message page
 
@@ -52,7 +51,7 @@ export async function replyToListing(page: Page, settings: Settings) {
         button.click();
       }
     }, contactLandlordButton),
-    page.waitForNavigation({ waitUntil: 'load' }), // Wait for the page to fully load
+    page.waitForNavigation({ waitUntil: 'load', timeout: 0 }), // Wait for the page to fully load
   ]);
 
   console.log('Page has fully loaded after clicking the button.');
