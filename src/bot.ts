@@ -71,10 +71,10 @@ const settings: Settings = {
     const loginResult: boolean = await loginToKamernet(page, email, password);
 
     if (!loginResult) {
-      logMessage("Invalid credentials!", "red");
+      logMessage("[Error] -  Invalid credentials!", "red");
       return;
     } else {
-      logMessage("Successfully logged in to Kamernet", "green");
+      logMessage("[Success] -  Successfully logged in to Kamernet", "green");
     }
 
     // Accounting for multiple locations selected

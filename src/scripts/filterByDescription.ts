@@ -23,7 +23,7 @@ export async function filterByDescription(page: Page, settings: Settings) {
     for (const word of descriptionsWords) {
       if (filteredWordsParsed.some((filteredWord) => filteredWord === word)) {
         logMessage(
-          `Discarded: The listing's description contained the following blacklisted word: \x1b[37m-[ ${word} ]-\x1b[0m`,
+          `[Discarded] -  The listing's description contained the following blacklisted word: \x1b[37m-[ ${word} ]-\x1b[0m`,
           "red"
         );
         wait(1000, 12000);

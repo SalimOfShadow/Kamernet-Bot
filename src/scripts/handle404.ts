@@ -5,9 +5,9 @@ import { logMessage } from "../utils/logMessage";
 export async function handle404(page: Page): Promise<boolean> {
   const pageTitle = await page.title();
   if (pageTitle.includes("Error")) {
-    logMessage("404 Error detected.", "red");
+    logMessage(`[Error] -  This page does not exists ${page.url()}.`, "red");
     logMessage(
-      "Please make sure all the paramaters are set correctly in the .env config file!",
+      "[Warning] -  Please make sure all the paramaters are set correctly in the .env config file, beware of typos!",
       "yellow"
     );
     page.close();
@@ -22,9 +22,9 @@ export async function handle404(page: Page): Promise<boolean> {
   const listingNotAvailable = await page.$$(notAvailableMessage);
 
   if (pageNotFound.length > 0 || listingNotAvailable.length > 0) {
-    logMessage("This page is no longer available.", "red");
+    logMessage(`[Error] -  This page does not exists ${page.url()}.`, "red");
     logMessage(
-      "Please make sure all the paramaters are set correctly in the .env config file!",
+      "[Warning] -  Please make sure all the paramaters are set correctly in the .env config file, beware of typos!",
       "yellow"
     );
     page.close();

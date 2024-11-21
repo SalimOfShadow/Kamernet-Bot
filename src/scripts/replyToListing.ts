@@ -20,7 +20,7 @@ export async function replyToListing(page: Page, settings: Settings) {
 
   if ((await page.$(messageSentBox)) !== null) {
     logMessage(
-      `Skipping: Already replied to this listing  ${page.url()}`,
+      `[Skipped] -  Already replied to this listing  ${page.url()}`,
       "yellow"
     );
     await page.close();
@@ -50,8 +50,6 @@ export async function replyToListing(page: Page, settings: Settings) {
     }, contactLandlordButton),
     page.waitForNavigation({ waitUntil: "load", timeout: 0 }), // Wait for the page to fully load
   ]);
-
-  console.log("Page has fully loaded after clicking the button.");
 
   // Fill out the reply field and send a message to the landlord
   await contactLandlord(page, settings, listingURL, 0);
@@ -90,7 +88,10 @@ async function contactLandlord(
 
   console.log("SHOULD CLICK THE BUTTON");
   // await page.click(sendMessageButton, { delay: randomMouseClickDelay() });
-  logMessage(`Success: Replied to this listing  ${listingURL}`, "green");
+  logMessage(
+    `[Success] - Successfully replied to the listing:  ${listingURL}`,
+    "green"
+  );
   await wait(1000, 2000);
 
   await page.close();

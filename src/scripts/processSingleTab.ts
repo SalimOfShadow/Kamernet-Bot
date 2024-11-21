@@ -42,7 +42,7 @@ export async function processSingleTab(
     // Start the cronjob to search for and reply to new listings every N minutes
   } catch (err: unknown) {
     logMessage(
-      "Your research returned only one page of listings. Processing it now...",
+      "[Success] -  Your research returned only one page of listings. Processing it now...",
       "green"
     );
   } finally {
