@@ -15,7 +15,6 @@ export async function handle404(page: Page): Promise<boolean> {
     console.warn(
       'Please make sure all the paramaters are set correctly in the .env config file!'
     );
-    await page.close();
     return false;
   }
   return true;
