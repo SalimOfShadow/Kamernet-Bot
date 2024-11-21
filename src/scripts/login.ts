@@ -1,10 +1,10 @@
-import { logMessage } from '../utils/logMessage';
+import { logMessage } from "../utils/logMessage";
 import {
   randomKeyDelay,
   randomMouseClickDelay,
   wait,
-} from '../utils/randomActions';
-import { Page } from 'puppeteer';
+} from "../utils/randomActions";
+import { Page } from "puppeteer";
 
 export async function loginToKamernet(
   page: Page,
@@ -12,14 +12,12 @@ export async function loginToKamernet(
   password: string
 ): Promise<boolean> {
   try {
-    logMessage('Logging in');
-    console.log('Logging in...');
     // Load the landing page
-    await page.goto('https://kamernet.nl/en', { waitUntil: 'load' });
+    await page.goto("https://kamernet.nl/en", { waitUntil: "load" });
 
     // Click the Login button
     const loginButtonMainPage: string =
-      '#page-header > nav > button:nth-child(4)';
+      "#page-header > nav > button:nth-child(4)";
     await page.waitForSelector(loginButtonMainPage, {
       visible: true,
     });
@@ -28,36 +26,35 @@ export async function loginToKamernet(
     });
 
     // Wait for the Login page to load
-    await page.waitForSelector('#email');
-    await page.waitForSelector('#password');
-
+    await page.waitForSelector("#email");
+    await page.waitForSelector("#password");
+    logMessage("Logging in...", "blue");
     // Type the email and password in the fields
     await wait(400, 1000);
 
-    await page.click('#email', { delay: randomMouseClickDelay() });
+    await page.click("#email", { delay: randomMouseClickDelay() });
     await wait(300, 1000);
-    await page.type('#email', email, { delay: randomKeyDelay() });
+    await page.type("#email", email, { delay: randomKeyDelay() });
 
     await wait(800, 2000);
 
-    await page.click('#password', { delay: randomMouseClickDelay() });
+    await page.click("#password", { delay: randomMouseClickDelay() });
     await wait(300, 1000);
-    await page.type('#password', password, { delay: randomKeyDelay() });
+    await page.type("#password", password, { delay: randomKeyDelay() });
 
     // Click the login button and sign in
     await wait(1000, 2000);
 
     const loginButton: string =
-      '#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch';
+      "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch";
 
     await page.click(loginButton, { delay: randomMouseClickDelay() });
 
     // Wait a bit for the page to process the login
-    console.log('Waiting for navigation');
     await wait(2000, 3000);
 
     // Check if the login failed (error message visible)
-    const invalidCredentialsElement: string = '#form-error';
+    const invalidCredentialsElement: string = "#form-error";
     const invalidCredentials = await page.$(invalidCredentialsElement);
 
     if (invalidCredentials) {
@@ -68,16 +65,16 @@ export async function loginToKamernet(
   } catch (err: unknown) {
     if (err instanceof Error) {
       // Now TypeScript knows `err` is of type `Error`, so it has the `message` property
-      console.error('An error has occurred');
+      console.error("An error has occurred");
       if (
         err.message ===
-        'Execution context was destroyed, most likely because of a navigation.'
+        "Execution context was destroyed, most likely because of a navigation."
       ) {
         // TODO - CHANGE THIS INTO A MORE ROBUST WAY OF CHECKING FOR SUCCESSFULL LOGIN
         return true;
       }
     } else {
-      console.error('An unknown error occurred');
+      console.error("An unknown error occurred");
       console.error(err);
     }
     return false;
