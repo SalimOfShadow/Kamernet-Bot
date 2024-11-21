@@ -1,11 +1,13 @@
-import { Settings } from "../bot";
+import { Settings } from '../bot';
 
 export function searchListings(settings: Settings, selectedLocation: string) {
   // Parsing the location
   const location: string = selectedLocation
     .toLocaleLowerCase()
-    .replace(" ", "-");
-
+    .replace(' ', '-');
+  if (location === 'den-haag') {
+    return 'https://kamernet.nl/en/for-rent/room-den-haag?listingTypes=1&searchview=1&maxRent=8&minSize=13&radius=7&pageNo=1&sort=1';
+  }
   // Parsing the listing type
   const listingTypeArray: string[] = settings.listingType;
   const listingTypeString = listingTypeArray
@@ -13,21 +15,21 @@ export function searchListings(settings: Settings, selectedLocation: string) {
     // 1 is Room - 2 is Apartment - 4 is Studio - 16 is Student Housing - 8 is Anti-squat
     .map((type) => {
       switch (type) {
-        case "room":
-          return "%2C1";
-        case "apartment":
-          return "%2C2";
-        case "studio":
-          return "%2C4";
-        case "student-housing":
-          return "";
-        case "anti-squat":
-          return "8";
+        case 'room':
+          return '%2C1';
+        case 'apartment':
+          return '%2C2';
+        case 'studio':
+          return '%2C4';
+        case 'student-housing':
+          return '';
+        case 'anti-squat':
+          return '8';
         default:
-          return "";
+          return '';
       }
     })
-    .join("");
+    .join('');
 
   // Parsing the maximum price
   const possiblePrices: number[] = [
@@ -59,7 +61,7 @@ export function searchListings(settings: Settings, selectedLocation: string) {
   const searchLink: string =
     /*pageNo=1&sort=1*/
     `https://kamernet.nl/en/for-rent/properties-${location}?listingTypes=${listingTypeString}&searchview=1&maxRent=${maxPrice}&minSize=${minSize}&radius=${
-      radius === "0" ? "1" : radius
+      radius === '0' ? '1' : radius
     }
   `;
 
