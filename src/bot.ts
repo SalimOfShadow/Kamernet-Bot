@@ -106,7 +106,7 @@ const settings: Settings = {
     });
 
     // Wait before closing
-    await new Promise((resolve) => setTimeout(resolve, Infinity));
+    await new Promise((resolve) => setTimeout(resolve, 1244200));
 
     // Close the main page
     await page.close();
