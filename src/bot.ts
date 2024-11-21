@@ -79,11 +79,15 @@ const settings: Settings = {
     // Generate URL and navigate into it
 
     // TODO - ACCOUNT FOR MULTIPLE POSSIBLE LOCATIONS
-    settings.location.forEach(async (location, index) => {
-      const searchURL: string = searchListings(settings, index);
-      await openPage(browser, searchURL);
+    for (const location of settings.location) {
+      const searchURL: string = searchListings(settings, location);
+
+      if (location === settings.location[0]) {
+        await page.goto(searchURL, { waitUntil: "load" });
+      } else {
+        await openPage(browser, searchURL);
+      }
       await wait(500, 1740);
-      await page.goto(searchURL, { waitUntil: "load" });
 
       // Check if the page exists
       const isPagePresent = await handle404(page);
@@ -115,10 +119,10 @@ const settings: Settings = {
         //console.log("No page button found,continuing...");
       }
 
-      // Start the cronjob to reply to search for and reply to new listings every N minutes
+      // Start the cronjob to search for and reply to new listings every N minutes
 
       await searchAndReplyInterval(page, browser, settings);
-    });
+    }
 
     // Wait before closing
     await new Promise((resolve) => setTimeout(resolve, 1244200));
