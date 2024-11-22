@@ -1,5 +1,5 @@
 // Imports
-require('dotenv').config({ path: '../.env' });
+const path = require('path');
 import * as puppeteer from 'puppeteer';
 import { loginToKamernet } from './scripts/login';
 import { searchListings } from './scripts/searchListings';
@@ -11,6 +11,7 @@ import { openTab } from './scripts/openPage';
 import { clearLogs, logMessage } from './utils/logMessage';
 import { processSingleTab } from './scripts/processSingleTab';
 import { validateSettings } from './utils/validateSettings';
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // Initialize settings
 const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
