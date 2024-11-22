@@ -13,7 +13,7 @@ import { askForPassword } from "./utils/askForPassword";
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 // Initialize settings
-const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
+const isDev: boolean = process.env.CURRENT_ENV === "development" ? false : true;
 
 export interface Settings {
   location: string[];
@@ -85,9 +85,8 @@ const settings: Settings = {
     if (!settingsValid) {
       process.exit();
     }
-
     browser = await puppeteer.launch({
-      headless: isProd,
+      headless: isDev,
       args: ["--disable-blink-features=AutomationControlled"],
       pipe: true,
       defaultViewport: null,

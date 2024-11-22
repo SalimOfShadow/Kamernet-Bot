@@ -16,7 +16,7 @@ export async function searchAndReplyInterval(
     logMessage(
       `Now processing listings for \x1b[37m ${location}\x1b[0m...`,
       "info",
-      "blue"
+      "cyan"
     );
     await processListings(page, browser, settings);
     logMessage(

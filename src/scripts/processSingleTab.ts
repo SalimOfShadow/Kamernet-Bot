@@ -27,7 +27,7 @@ export async function processSingleTab(
       logMessage(
         `Your research for listings in ${location} returned ${availablePages} pages. Processing them now...`,
         "info",
-        "blue"
+        "cyan"
       );
       await processAllPages(
         page,
@@ -41,7 +41,7 @@ export async function processSingleTab(
     logMessage(
       `Your research for listings in ${location} returned only 1 page. Processing it now...`,
       "info",
-      "blue"
+      "cyan"
     );
   } finally {
     // Start the cronjob to search for and reply to new listings every N minutes
