@@ -10,7 +10,7 @@ import { clearLogsAndConsole, logMessage } from "./utils/logMessage";
 import { processSingleTab } from "./scripts/processSingleTab";
 import { validateSettings } from "./utils/validateSettings";
 import { askForPassword } from "./utils/askForPassword";
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+require("dotenv").config({ path: path.resolve(__dirname, "../config.env") });
 
 // Initialize settings
 const isDev: boolean = process.env.CURRENT_ENV === "development" ? false : true;
