@@ -16,18 +16,19 @@ export async function processSingleTab(
 
   // Process all the possible pages and reply to each insertion
   try {
-    console.log('Waiting for the page button');
     await page.waitForSelector(lastPageButton, { timeout: 5000 });
-    console.log('Stopped waiting for the page button');
 
     const availablePages: number = await page.$eval(lastPageButton, (button) =>
       Number(button.textContent?.trim())
     );
-    console.log(`These are the avaialblePages : ${availablePages}`);
 
     if (availablePages !== 0) {
-      console.log(`Should process all ${availablePages} pages for ${location}`);
       const currentPageURL = await page.url();
+      logMessage(
+        `Your research for listings in ${location} returned ${availablePages} pages. Processing them now...`,
+        'info',
+        'blue'
+      );
       await processAllPages(
         page,
         browser,
@@ -36,17 +37,14 @@ export async function processSingleTab(
         settings
       );
     }
-    console.log(
-      `Got to the end of processSingleLocation,i should now start the interval: `
-    );
-    // Start the cronjob to search for and reply to new listings every N minutes
   } catch (err: unknown) {
     logMessage(
-      'Your research returned only one page of listings. Processing it now...',
-      'success',
-      'green'
+      `Your research for listings in ${location} returned only 1 page. Processing it now...`,
+      'info',
+      'blue'
     );
   } finally {
+    // Start the cronjob to search for and reply to new listings every N minutes
     await searchAndReplyInterval(page, browser, settings, location);
   }
 }

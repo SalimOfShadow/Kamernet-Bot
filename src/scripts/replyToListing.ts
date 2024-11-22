@@ -63,7 +63,7 @@ async function contactLandlord(
   attempts: number
 ) {
   if (attempts > 5) {
-    console.log('Retried 5 times,exiting...');
+    // console.log('Retried 5 times,exiting...');
     return;
   }
   const sendMessageButton =
@@ -78,7 +78,7 @@ async function contactLandlord(
   if (messageSelector) {
     await page.click(messageField);
   } else {
-    console.log("Couldn't find the message selector,retrying in 2 seconds");
+    // Couldn't find the message selector,retrying in 2 seconds"
     await wait(1000, 2000);
     contactLandlord(page, settings, listingURL, attempts + 1);
     return;

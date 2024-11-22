@@ -2,6 +2,7 @@ import { Browser, Page } from 'puppeteer';
 import { wait } from '../utils/randomActions';
 import { processListings } from './processListings';
 import { Settings } from '../bot';
+import { logMessage } from '../utils/logMessage';
 
 export async function processAllPages(
   page: Page,
@@ -19,7 +20,7 @@ export async function processAllPages(
     await processListings(page, browser, settings);
     pageIndex++;
   } while (pageIndex <= totalPages);
-  console.log('All pages have been processed');
+  logMessage('All pages have been processed', 'success', 'green');
   // Return to the first page after all the others have been processed
   await page.goto(searchURL, { waitUntil: 'networkidle2', timeout: 33134 });
 }
