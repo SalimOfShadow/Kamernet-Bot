@@ -1,25 +1,25 @@
 // Imports
-const path = require('path');
-import * as puppeteer from 'puppeteer';
-import { loginToKamernet } from './scripts/login';
-import { searchListings } from './scripts/searchListings';
-import { wait } from './utils/randomActions';
-import { handle404 } from './scripts/handle404';
-import { openTab } from './scripts/openPage';
-import { clearLogsAndConsole, logMessage } from './utils/logMessage';
-import { processSingleTab } from './scripts/processSingleTab';
-import { validateSettings } from './utils/validateSettings';
-import { askForPassword } from './utils/askForPassword';
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+const path = require("path");
+import * as puppeteer from "puppeteer";
+import { loginToKamernet } from "./scripts/login";
+import { searchListings } from "./scripts/searchListings";
+import { wait } from "./utils/randomActions";
+import { handle404 } from "./utils/handle404";
+import { openTab } from "./scripts/openPage";
+import { clearLogsAndConsole, logMessage } from "./utils/logMessage";
+import { processSingleTab } from "./scripts/processSingleTab";
+import { validateSettings } from "./utils/validateSettings";
+import { askForPassword } from "./utils/askForPassword";
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 // Initialize settings
-const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
+const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
 
 export interface Settings {
   location: string[];
   listingType: string[];
   maxPrice: number;
-  minRooms: number;
+  minSize: number;
   radius: number;
   interval: number;
   customReplyRoom?: string;
@@ -28,16 +28,33 @@ export interface Settings {
 }
 
 const settings: Settings = {
-  location: process.env.LOCATION?.split(',') || [],
-  listingType: process.env.LISTING_TYPE?.split(',') || [],
-  maxPrice: Number(process.env.MAX_PRICE || '0'),
-  minRooms: Number(process.env.MIN_SIZE || '0'),
-  radius: Number(process.env.RADIUS || '1'),
-  interval: Number(process.env.INTERVAL || '15'), // Defaults to 15 minutes
-  customReplyRoom: process.env.CUSTOM_REPLY_ROOM || '',
-  customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || '',
+  location:
+    Array.from(
+      // Creates a Set and then stores converts it into an array,to avoid duplicates
+      new Set(
+        process.env.LOCATION?.split(",")
+          .map((type) => type.trim().toLowerCase())
+          // if it's not empty (truthy) nor a number we keep it
+          .filter((type) => type && !/\d/.test(type))
+      )
+    ) || [],
+  listingType: process.env.LISTING_TYPE
+    ? Array.from(
+        new Set(
+          process.env.LISTING_TYPE.split(",")
+            .map((type) => type.trim().toLowerCase())
+            .filter((type) => type && !/\d/.test(type))
+        )
+      )
+    : [],
+  maxPrice: Number(process.env.MAX_PRICE || "0"),
+  minSize: Number(process.env.MIN_SIZE || "0"),
+  radius: Number(process.env.RADIUS || "1"),
+  interval: Number(process.env.INTERVAL || "15"), // Defaults to 15 minutes
+  customReplyRoom: process.env.CUSTOM_REPLY_ROOM || "",
+  customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || "",
   filteredWords:
-    process.env.FILTERED_WORDS?.split('-').map((word) =>
+    process.env.FILTERED_WORDS?.split("-").map((word) =>
       word.trim().toLowerCase()
     ) || [],
 };
@@ -48,11 +65,11 @@ const settings: Settings = {
 (async () => {
   clearLogsAndConsole();
   if (!process.env.KAMERNET_EMAIL) {
-    logMessage('Missing email address!', 'error', 'red');
+    logMessage("Missing email address!", "error", "red");
     logMessage(
-      'Please make sure all the paramaters are set correctly in the .env config file, beware of typos!',
-      'warning',
-      'yellow'
+      "Please make sure all the parematers are set correctly in the .env config file, beware of typos!",
+      "warning",
+      "yellow"
     );
     return;
   }
@@ -71,7 +88,7 @@ const settings: Settings = {
 
     browser = await puppeteer.launch({
       headless: isProd,
-      args: ['--disable-blink-features=AutomationControlled'],
+      args: ["--disable-blink-features=AutomationControlled"],
       pipe: true,
       defaultViewport: null,
     });
@@ -83,10 +100,14 @@ const settings: Settings = {
     const loginResult: boolean = await loginToKamernet(page, email, password);
 
     if (!loginResult) {
-      logMessage('Invalid credentials!', 'error', 'red');
+      logMessage(
+        "Invalid credentials! Make sure your email and password are correct.",
+        "error",
+        "red"
+      );
       process.exit();
     } else {
-      logMessage('Successfully logged into Kamernet', 'success', 'green');
+      logMessage("Successfully logged into Kamernet.", "success", "green");
     }
 
     // Accounting for multiple locations selected
@@ -94,7 +115,7 @@ const settings: Settings = {
       const searchURL: string = searchListings(settings, location);
       await wait(500, 1740);
       if (location === settings.location[0]) {
-        await page.goto(searchURL, { waitUntil: 'load' });
+        await page.goto(searchURL, { waitUntil: "load" });
       } else {
         await openTab(browser, searchURL);
       }

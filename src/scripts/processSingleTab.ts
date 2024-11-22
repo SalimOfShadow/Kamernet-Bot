@@ -1,8 +1,8 @@
-import { Browser, Page } from 'puppeteer';
-import { Settings } from '../bot';
-import { searchAndReplyInterval } from './searchAndReplyInterval';
-import { processAllPages } from './processAllPages';
-import { logMessage } from '../utils/logMessage';
+import { Browser, Page } from "puppeteer";
+import { Settings } from "../bot";
+import { searchAndReplyInterval } from "./searchAndReplyInterval";
+import { processAllPages } from "./processAllPages";
+import { logMessage } from "../utils/logMessage";
 // Generate URL and navigate into it
 export async function processSingleTab(
   page: Page,
@@ -12,7 +12,7 @@ export async function processSingleTab(
 ) {
   // Fetch the number of pages
   const lastPageButton: string =
-    '#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button'; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
+    "#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button"; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
 
   // Process all the possible pages and reply to each insertion
   try {
@@ -26,8 +26,8 @@ export async function processSingleTab(
       const currentPageURL = await page.url();
       logMessage(
         `Your research for listings in ${location} returned ${availablePages} pages. Processing them now...`,
-        'info',
-        'blue'
+        "info",
+        "blue"
       );
       await processAllPages(
         page,
@@ -40,8 +40,8 @@ export async function processSingleTab(
   } catch (err: unknown) {
     logMessage(
       `Your research for listings in ${location} returned only 1 page. Processing it now...`,
-      'info',
-      'blue'
+      "info",
+      "blue"
     );
   } finally {
     // Start the cronjob to search for and reply to new listings every N minutes
