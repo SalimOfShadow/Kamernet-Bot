@@ -1,19 +1,19 @@
 // Imports
-require("dotenv").config({ path: "../.env" });
-import * as puppeteer from "puppeteer";
-import { loginToKamernet } from "./scripts/login";
-import { searchListings } from "./scripts/searchListings";
-import { wait } from "./utils/randomActions";
-import { processAllPages } from "./scripts/processAllPages";
-import { searchAndReplyInterval } from "./scripts/searchAndReplyInterval";
-import { handle404 } from "./scripts/handle404";
-import { openTab } from "./scripts/openPage";
-import { clearLogs, logMessage } from "./utils/logMessage";
-import { processSingleTab } from "./scripts/processSingleTab";
-import { validateSettings } from "./utils/validateSettings";
+require('dotenv').config({ path: '../.env' });
+import * as puppeteer from 'puppeteer';
+import { loginToKamernet } from './scripts/login';
+import { searchListings } from './scripts/searchListings';
+import { wait } from './utils/randomActions';
+import { processAllPages } from './scripts/processAllPages';
+import { searchAndReplyInterval } from './scripts/searchAndReplyInterval';
+import { handle404 } from './scripts/handle404';
+import { openTab } from './scripts/openPage';
+import { clearLogs, logMessage } from './utils/logMessage';
+import { processSingleTab } from './scripts/processSingleTab';
+import { validateSettings } from './utils/validateSettings';
 
 // Initialize settings
-const isProd: boolean = process.env.CURRENT_ENV === "production" ? true : false;
+const isProd: boolean = process.env.CURRENT_ENV === 'production' ? true : false;
 
 export interface Settings {
   location: string[];
@@ -28,16 +28,16 @@ export interface Settings {
 }
 
 const settings: Settings = {
-  location: process.env.LOCATION?.split(",") || [],
-  listingType: process.env.LISTING_TYPE?.split(",") || [],
-  maxPrice: Number(process.env.MAX_PRICE || "0"),
-  minRooms: Number(process.env.MIN_SIZE || "0"),
-  radius: Number(process.env.RADIUS || "1"),
-  interval: Number(process.env.INTERVAL || "15"), // Defaults to 15 minutes
-  customReplyRoom: process.env.CUSTOM_REPLY_ROOM || "",
-  customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || "",
+  location: process.env.LOCATION?.split(',') || [],
+  listingType: process.env.LISTING_TYPE?.split(',') || [],
+  maxPrice: Number(process.env.MAX_PRICE || '0'),
+  minRooms: Number(process.env.MIN_SIZE || '0'),
+  radius: Number(process.env.RADIUS || '1'),
+  interval: Number(process.env.INTERVAL || '15'), // Defaults to 15 minutes
+  customReplyRoom: process.env.CUSTOM_REPLY_ROOM || '',
+  customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || '',
   filteredWords:
-    process.env.FILTERED_WORDS?.split("-").map((word) =>
+    process.env.FILTERED_WORDS?.split('-').map((word) =>
       word.trim().toLowerCase()
     ) || [],
 };
@@ -48,7 +48,7 @@ const settings: Settings = {
 (async () => {
   clearLogs();
   if (!process.env.KAMERNET_EMAIL || !process.env.KAMERNET_PASSWORD) {
-    throw new Error("Please provide your credentials to proceed.");
+    throw new Error('Please provide your credentials to proceed.');
   }
 
   const email: string = process.env.KAMERNET_EMAIL;
@@ -66,7 +66,7 @@ const settings: Settings = {
 
     browser = await puppeteer.launch({
       headless: isProd,
-      args: ["--disable-blink-features=AutomationControlled"],
+      args: ['--disable-blink-features=AutomationControlled'],
       pipe: true,
       defaultViewport: null,
     });
@@ -78,10 +78,10 @@ const settings: Settings = {
     const loginResult: boolean = await loginToKamernet(page, email, password);
 
     if (!loginResult) {
-      logMessage("[Error] -  Invalid credentials!", "red");
+      logMessage('Invalid credentials!', 'error', 'red');
       process.exit();
     } else {
-      logMessage("[Success] -  Successfully logged in to Kamernet", "green");
+      logMessage('Successfully logged in to Kamernet', 'success', 'green');
     }
 
     // Accounting for multiple locations selected
@@ -89,7 +89,7 @@ const settings: Settings = {
       const searchURL: string = searchListings(settings, location);
       await wait(500, 1740);
       if (location === settings.location[0]) {
-        await page.goto(searchURL, { waitUntil: "load" });
+        await page.goto(searchURL, { waitUntil: 'load' });
       } else {
         await openTab(browser, searchURL);
       }

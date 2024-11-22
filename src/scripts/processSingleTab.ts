@@ -1,8 +1,8 @@
-import { Browser, Page } from "puppeteer";
-import { Settings } from "../bot";
-import { searchAndReplyInterval } from "./searchAndReplyInterval";
-import { processAllPages } from "./processAllPages";
-import { logMessage } from "../utils/logMessage";
+import { Browser, Page } from 'puppeteer';
+import { Settings } from '../bot';
+import { searchAndReplyInterval } from './searchAndReplyInterval';
+import { processAllPages } from './processAllPages';
+import { logMessage } from '../utils/logMessage';
 // Generate URL and navigate into it
 export async function processSingleTab(
   page: Page,
@@ -12,13 +12,13 @@ export async function processSingleTab(
 ) {
   // Fetch the number of pages
   const lastPageButton: string =
-    "#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button"; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
+    '#page-content > section:nth-child(2) > div > nav > ul > li:nth-last-child(2) > button'; // From the <ul>, pick the second to last child (li:nth-last-child("2"))
 
   // Process all the possible pages and reply to each insertion
   try {
-    console.log("Waiting for the page button");
+    console.log('Waiting for the page button');
     await page.waitForSelector(lastPageButton, { timeout: 5000 });
-    console.log("Stopped waiting for the page button");
+    console.log('Stopped waiting for the page button');
 
     const availablePages: number = await page.$eval(lastPageButton, (button) =>
       Number(button.textContent?.trim())
@@ -42,10 +42,11 @@ export async function processSingleTab(
     // Start the cronjob to search for and reply to new listings every N minutes
   } catch (err: unknown) {
     logMessage(
-      "[Success] -  Your research returned only one page of listings. Processing it now...",
-      "green"
+      'Your research returned only one page of listings. Processing it now...',
+      'success',
+      'green'
     );
   } finally {
-    await searchAndReplyInterval(page, browser, settings);
+    await searchAndReplyInterval(page, browser, settings, location);
   }
 }

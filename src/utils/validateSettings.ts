@@ -1,5 +1,5 @@
-import { Settings } from "../bot";
-import { logMessage } from "./logMessage";
+import { Settings } from '../bot';
+import { logMessage } from './logMessage';
 
 export const possiblePrices: number[] = [
   0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400,
@@ -18,17 +18,19 @@ export function validateSettings(settings: Settings) {
   // TODO - Finish this
   if (!settings.location) {
     logMessage(
-      `[Error] - Missing location! Please config the .env file correctly before retrying.`,
-      "red"
+      `Missing location! Please config the .env file correctly before retrying.`,
+      'error',
+      'red'
     );
     return false;
   }
 
   if (!possiblePrices.includes(settings.maxPrice)) {
     logMessage(
-      `[Error] - Invalid maxPrice! Please select one of the following:\n` +
-        `\x1b[37m${possiblePrices.join("  ")}\x1b[0m`,
-      "red"
+      `Invalid maxPrice! Please select one of the following:\n` +
+        `\x1b[37m${possiblePrices.join('  ')}\x1b[0m`,
+      'error',
+      'red'
     );
     return false;
   }
