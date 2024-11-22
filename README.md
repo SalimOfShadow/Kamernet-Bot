@@ -46,17 +46,17 @@ Before using **Kamernet-Bot**, ensure you have the following software installed:
 
 ## Configuration
 
-The bot can be configured by modifying the .env file.
-Create a .env file to store your environment variables, and open it with your favourite text editor program (Notepad will do just fine!).
+The bot can be configured by modifying the config.env file.
+Locate your config.env file and open it with your favourite text editor program (Notepad will do just fine!).
 Insert your parameters on all the fields,you can use the provided .env.example file as a template.
 
-### Example .env file parameters:
+### Example config.env file parameters:
 
     KAMERNET_EMAIL=your_email                                           # Your Kamernet username
     LOCATION="Amsterdam"                                                # The desired location for the room (e.g., city or neighborhood)
     LISTING_TYPE="room,apartment,studio,anti-squat,student-housing"     # The type of listings you are searching for
     MAX_PRICE="1000"                                                    # Maximum price you're willing to pay for rent
-    MIN_SIZE=2                                                          # Minimum surface area in square meters
+    MIN_SIZE=6                                                          # Minimum surface area in square meters
     RADIUS=1                                                            # Maximum radius in km from your selected location
     CUSTOM_REPLY_ROOM="Example Reply"                                   # Custom message for a single room ad
     CUSTOM_REPLY_APARTMENT="Example Reply"                              # Custom message for a whole apartment ad
@@ -65,7 +65,7 @@ Insert your parameters on all the fields,you can use the provided .env.example f
 
 ### Timings
 
-The bot will check the Kamernet website for new listings every 15 minutes by default,but this is purely arbitrary.If you wish so,you can modify the interval by adjusting the paramater inside the .env file.
+The bot will check the Kamernet website for new listings every 15 minutes by default,but this is purely arbitrary.If you wish so,you can modify the interval by adjusting the paramater inside the config.env file.
 
 ## Usage
 
@@ -92,10 +92,10 @@ To run **Kamernet-Bot** using Docker:
 2. Run the Docker container:
 
    ```
-   docker run -d --env-file .env Kamernet-Bot
+   docker run -d --env-file config.env Kamernet-Bot
    ```
 
-This will run **Kamernet-Bot** inside a Docker container, using the environment variables from your .env file.
+This will run **Kamernet-Bot** inside a Docker container, using the environment variables from your config.env file.
 
 ## License
 
