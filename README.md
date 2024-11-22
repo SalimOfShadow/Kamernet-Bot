@@ -9,8 +9,8 @@
 - Customizable parameters for filtering and replying to listings.
 - Configurable timing interval for checking listings and sending responses.
 - Logs interactions for tracking purposes.
-- Using a [patched version](https://github.com/rebrowser/rebrowser-patches) of Puppeteer, it now passes all the tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Browser Scan](https://www.browserscan.net/bot-detection) ensuring it behaves as much as possible like a human and avoids detection...(**FOR NOW**)! 
-Results may change at any time.
+- Using a [patched version](https://github.com/rebrowser/rebrowser-patches) of Puppeteer, it now passes all the tests on [Bot Detector](https://bot-detector.rebrowser.net/) and [Browser Scan](https://www.browserscan.net/bot-detection) ensuring it behaves as much as possible like a human and avoids detection...(**FOR NOW**)!
+  Results may change at any time.
 - Comes with a Dockerfile to build and run the bot on an separated environment like a VPS.
 
 ## Requirements
@@ -27,7 +27,8 @@ Before using **Kamernet-Bot**, ensure you have the following software installed:
     ```
     git clone https://github.com/SalimOfShadow/Kamernet-Bot.git
     ```
-    ### Or download the **zip** file. 
+
+    ### Or download the **zip** file.
 
 2.  Navigate to the project folder:
 
@@ -51,8 +52,7 @@ Insert your parameters on all the fields,you can use the provided .env.example f
 
 ### Example .env file parameters:
 
-    KAMERNET_USERNAME=your_username                                     # Your Kamernet username
-    KAMERNET_PASSWORD=your_password                                     # Your Kamernet password
+    KAMERNET_EMAIL=your_email                                           # Your Kamernet username
     LOCATION="Amsterdam"                                                # The desired location for the room (e.g., city or neighborhood)
     LISTING_TYPE="room,apartment,studio,anti-squat,student-housing"     # The type of listings you are searching for
     MAX_PRICE="1000"                                                    # Maximum price you're willing to pay for rent
@@ -61,6 +61,7 @@ Insert your parameters on all the fields,you can use the provided .env.example f
     CUSTOM_REPLY_ROOM="Example Reply"                                   # Custom message for a single room ad
     CUSTOM_REPLY_APARTMENT="Example Reply"                              # Custom message for a whole apartment ad
     INTERVAL=15                                                         # Interval (in minutes) for checking new listings
+    FILTERED_WORDS="Dutch Only"                                         # Blacklist for words found in the descriptions
 
 ### Timings
 

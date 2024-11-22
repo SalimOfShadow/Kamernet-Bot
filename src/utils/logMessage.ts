@@ -56,7 +56,10 @@ export function logMessage(message: string, outcome?: string, color?: string) {
   });
 }
 
-export function clearLogs() {
+export function clearLogsAndConsole() {
+  const output = process.stdout;
+  output.write('\x1Bc');
+  output.write(`\x1b[44m\x1b[36m   Welcome to Kamer-Bot!   \x1b[0m\n`);
   const logFilePath: string = path.join(__dirname, '../../log.txt');
   fs.rm(logFilePath, () => {});
 }

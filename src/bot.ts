@@ -4,13 +4,12 @@ import * as puppeteer from 'puppeteer';
 import { loginToKamernet } from './scripts/login';
 import { searchListings } from './scripts/searchListings';
 import { wait } from './utils/randomActions';
-import { processAllPages } from './scripts/processAllPages';
-import { searchAndReplyInterval } from './scripts/searchAndReplyInterval';
 import { handle404 } from './scripts/handle404';
 import { openTab } from './scripts/openPage';
-import { clearLogs, logMessage } from './utils/logMessage';
+import { clearLogsAndConsole, logMessage } from './utils/logMessage';
 import { processSingleTab } from './scripts/processSingleTab';
 import { validateSettings } from './utils/validateSettings';
+import { askForPassword } from './utils/askForPassword';
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // Initialize settings
@@ -47,14 +46,19 @@ const settings: Settings = {
 
 // Launch Puppeteer
 (async () => {
-  clearLogs();
-  if (!process.env.KAMERNET_EMAIL || !process.env.KAMERNET_PASSWORD) {
-    throw new Error('Please provide your credentials to proceed.');
+  clearLogsAndConsole();
+  if (!process.env.KAMERNET_EMAIL) {
+    logMessage('Missing email address!', 'error', 'red');
+    logMessage(
+      'Please make sure all the paramaters are set correctly in the .env config file, beware of typos!',
+      'warning',
+      'yellow'
+    );
+    return;
   }
 
   const email: string = process.env.KAMERNET_EMAIL;
-  const password: string = process.env.KAMERNET_PASSWORD;
-
+  const password: string = await askForPassword();
   let browser: puppeteer.Browser;
   let page: puppeteer.Page;
 
@@ -82,7 +86,7 @@ const settings: Settings = {
       logMessage('Invalid credentials!', 'error', 'red');
       process.exit();
     } else {
-      logMessage('Successfully logged in to Kamernet', 'success', 'green');
+      logMessage('Successfully logged into Kamernet', 'success', 'green');
     }
 
     // Accounting for multiple locations selected
