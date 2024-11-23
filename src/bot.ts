@@ -31,7 +31,6 @@ export interface Settings {
 const configJSON: ConfigJSON = loadConfigFile(
   path.resolve(__dirname, '../config.json')
 );
-
 // Convert config to `Settings` with appropriate handling for arrays and defaults
 const settings: Settings = {
   location:
@@ -46,7 +45,7 @@ const settings: Settings = {
             // nor contains numbers we keep it
             !/\d/.test(location) &&
             // nor contains only special characters
-            /^[^a-zA-Z0-9]*$/.test(location)
+            !/^[^a-zA-Z0-9]*$/.test(location)
         )
       )
     ) || [],
@@ -75,7 +74,6 @@ const settings: Settings = {
 // Launch Puppeteer
 (async () => {
   clearLogsAndConsole();
-
   if (!configJSON.KAMERNET_EMAIL) {
     logMessage('Missing email address!', 'error', 'red');
     logMessage(
