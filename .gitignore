@@ -1,5 +1,5 @@
 node_modules
-config.env
+config.json
 *.js
 *.txt
 dist

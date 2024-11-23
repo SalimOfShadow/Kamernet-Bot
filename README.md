@@ -46,11 +46,11 @@ Before using **Kamernet-Bot**, ensure you have the following software installed:
 
 ## Configuration
 
-The bot can be configured by modifying the config.env file.
-Locate your config.env file and open it with your favourite text editor program (Notepad will do just fine!).
-Insert your parameters on all the fields,you can use the provided .env.example file as a template.
+The bot can be configured by modifying the config.json file.
+Locate your config.json file and open it with your favourite text editor program (Notepad will do just fine!).
+Insert your parameters on all the fields,you can use the provided config.default.json file as a template.
 
-### Example config.env file parameters:
+### Example config.json file parameters:
 
     KAMERNET_EMAIL=your_email                                           # Your Kamernet username
     LOCATION="Amsterdam"                                                # The desired location for the room (e.g., city or neighborhood)
@@ -65,7 +65,7 @@ Insert your parameters on all the fields,you can use the provided .env.example f
 
 ### Timings
 
-The bot will check the Kamernet website for new listings every 15 minutes by default,but this is purely arbitrary.If you wish so,you can modify the interval by adjusting the paramater inside the config.env file.
+The bot will check the Kamernet website for new listings every 15 minutes by default,but this is purely arbitrary.If you wish so,you can modify the interval by adjusting the paramater inside the config.json file.
 
 ## Usage
 
@@ -75,7 +75,7 @@ The bot will check the Kamernet website for new listings every 15 minutes by def
    npm start
    ```
 
-2. The bot will begin checking new listings on Kamernet.net and automatically reply to any that match the criteria defined in your .env file.
+2. The bot will begin checking new listings on Kamernet.net and automatically reply to any that match the criteria defined in your .json file.
 
 3. The bot will output logs to the terminal. It will also create a file named **logs.txt** with informations about replies sent, successful interactions, or errors encountered.
 
@@ -92,10 +92,10 @@ To run **Kamernet-Bot** using Docker:
 2. Run the Docker container:
 
    ```
-   docker run -d --env-file config.env Kamernet-Bot
+   docker run -d Kamernet-Bot
    ```
 
-This will run **Kamernet-Bot** inside a Docker container, using the environment variables from your config.env file.
+This will run **Kamernet-Bot** inside a Docker container, using the variables from your config.json file.
 
 ## License
 

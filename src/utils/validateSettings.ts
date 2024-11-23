@@ -1,12 +1,12 @@
-import { Settings } from "../bot";
-import { logMessage } from "./logMessage";
+import { Settings } from '../bot';
+import { logMessage } from './logMessage';
 
 export const possibleListingTypes: string[] = [
-  "room",
-  "apartment",
-  "studio",
-  "anti-squat",
-  "student-housing",
+  'room',
+  'apartment',
+  'studio',
+  'anti-squat',
+  'student-housing',
 ] as const;
 // TODO - Turn these into enums
 export const possiblePrices: number[] = [
@@ -28,27 +28,38 @@ export function validateSettings(settings: Settings) {
   // Validate location
   if (!settings.location || settings.location.length === 0) {
     logMessage(
-      `Missing location! Please config the .env file correctly before retrying.`,
-      "error",
-      "red"
+      `Missing location! Please configure the config.json file correctly before retrying.`,
+      'error',
+      'red'
     );
     return false;
   }
 
   if (settings.location.length >= 5) {
     logMessage(
-      "You've selected 5 or more locations. This has not been fully tested yet and may lead to unexpected behavior.",
-      "warning",
-      "yellow"
+      "You've selected 5 or more locations. This has not been fully tested yet and yield unexpected results.",
+      'warning',
+      'yellow'
     );
+  }
+
+  for (const location of settings.location) {
+    if (location.length > 25) {
+      logMessage(
+        `Your selected location has more than 25 characters...This is most likely a misconfiguration.`,
+        'error',
+        'red'
+      );
+      return false;
+    }
   }
 
   // Validate listing type
   if (!settings.listingType || settings.listingType.length === 0) {
     logMessage(
-      `Missing listing type! Please config the .env file correctly before retrying.`,
-      "error",
-      "red"
+      `Missing listing type! Please configure the config.json file correctly before retrying.`,
+      'error',
+      'red'
     );
     return false;
   }
@@ -57,10 +68,10 @@ export function validateSettings(settings: Settings) {
     if (!possibleListingTypes.includes(type)) {
       logMessage(
         `${type} is not a valid listing type! Please select one or more of the following:\n` +
-          `\n\x1b[37m${possibleListingTypes.join("  ")}\x1b[0m\n` +
-          "\nIf you need to add more than one,you can chain them using a comma ( , ).",
-        "error",
-        "red"
+          `\n\x1b[37m${possibleListingTypes.join('  ')}\x1b[0m\n` +
+          '\nIf you need to add more than one,you can chain them using a comma ( , ).',
+        'error',
+        'red'
       );
       return false;
     }
@@ -70,9 +81,9 @@ export function validateSettings(settings: Settings) {
   if (!possiblePrices.includes(settings.maxPrice) || !settings.maxPrice) {
     logMessage(
       `Invalid max price field! Please select one of the following:\n` +
-        `\n\x1b[37m${possiblePrices.join("  ")}\x1b[0m\n`,
-      "error",
-      "red"
+        `\n\x1b[37m${possiblePrices.join('  ')}\x1b[0m\n`,
+      'error',
+      'red'
     );
     return false;
   }
@@ -81,9 +92,9 @@ export function validateSettings(settings: Settings) {
   if (!possibleDimensions.includes(settings.minSize) || !settings.minSize) {
     logMessage(
       `Invalid minimum size field! Please select one of the following:\n` +
-        `\n\x1b[37m${possibleDimensions.join("  ")}\x1b[0m\n`,
-      "error",
-      "red"
+        `\n\x1b[37m${possibleDimensions.join('  ')}\x1b[0m\n`,
+      'error',
+      'red'
     );
     return false;
   }
@@ -92,47 +103,47 @@ export function validateSettings(settings: Settings) {
   if (!possibleRadii.includes(settings.radius) || !settings.radius) {
     logMessage(
       `Invalid kilometers radius field! Please select one of the following:\n` +
-        `\n\x1b[37m${possibleRadii.join("  ")}\x1b[0m\n`,
-      "error",
-      "red"
+        `\n\x1b[37m${possibleRadii.join('  ')}\x1b[0m\n`,
+      'error',
+      'red'
     );
     return false;
   }
 
   // Validate interval
   if (isNaN(settings.interval)) {
-    logMessage("The interval you've provided is not a number.", "error", "red");
+    logMessage("The interval you've provided is not a number.", 'error', 'red');
     return false;
   }
   if (settings.interval < 3) {
     logMessage(
       "You've selected the interval to be less than 3 minutes. This has not been fully tested yet and may lead to unexpected behavior.",
-      "warning",
-      "yellow"
+      'warning',
+      'yellow'
     );
   }
 
   // Validate replies
-  if (settings.customReplyRoom === "" || !settings.customReplyRoom) {
+  if (settings.customReplyRoom === '' || !settings.customReplyRoom) {
     logMessage(
-      `Missing reply field! Please config the .env file correctly before retrying.`,
-      "error",
-      "red"
+      `Missing reply field! Please configure the config.json file correctly before retrying.`,
+      'error',
+      'red'
     );
     return false;
   }
   if (settings.customReplyRoom.length < 50) {
     logMessage(
-      "Your reply is too short. Please provide a reply with at least 50 characters.",
-      "error",
-      "red"
+      'Your reply is too short. Please provide a reply with at least 50 characters.',
+      'error',
+      'red'
     );
     return false;
   }
-
+  //     TODO -IMPLEMENT MULTIPLE REPLIES
   // if (settings.customReplyApartment === "" || !settings.customReplyApartment) {
   //   logMessage(
-  //     `Missing reply field! Please config the .env file correctly before retrying.`,
+  //     `Missing reply field! Please configure the config.json file correctly before retrying.`,
   //     "error",
   //     "red"
   //   );

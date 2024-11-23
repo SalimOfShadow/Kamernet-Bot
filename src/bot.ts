@@ -1,19 +1,19 @@
 // Imports
-const path = require("path");
-import * as puppeteer from "puppeteer";
-import { loginToKamernet } from "./scripts/login";
-import { searchListings } from "./scripts/searchListings";
-import { wait } from "./utils/randomActions";
-import { handle404 } from "./utils/handle404";
-import { openTab } from "./scripts/openPage";
-import { clearLogsAndConsole, logMessage } from "./utils/logMessage";
-import { processSingleTab } from "./scripts/processSingleTab";
-import { validateSettings } from "./utils/validateSettings";
-import { askForPassword } from "./utils/askForPassword";
-require("dotenv").config({ path: path.resolve(__dirname, "../config.env") });
+import * as fs from 'fs';
+import * as path from 'path';
+import * as puppeteer from 'puppeteer';
+import { loginToKamernet } from './scripts/login';
+import { searchListings } from './scripts/searchListings';
+import { wait } from './utils/randomActions';
+import { handle404 } from './utils/handle404';
+import { openTab } from './scripts/openPage';
+import { clearLogsAndConsole, logMessage } from './utils/logMessage';
+import { processSingleTab } from './scripts/processSingleTab';
+import { validateSettings } from './utils/validateSettings';
+import { askForPassword } from './utils/askForPassword';
+import { ConfigJSON, loadConfigFile } from './utils/loadConfig';
 
 // Initialize settings
-const isDev: boolean = process.env.CURRENT_ENV === "development" ? false : true;
 
 export interface Settings {
   location: string[];
@@ -27,54 +27,66 @@ export interface Settings {
   filteredWords?: string[];
 }
 
+// Load configuration
+const configJSON: ConfigJSON = loadConfigFile(
+  path.resolve(__dirname, '../config.json')
+);
+
+// Convert config to `Settings` with appropriate handling for arrays and defaults
 const settings: Settings = {
   location:
     Array.from(
-      // Creates a Set and then stores converts it into an array,to avoid duplicates
       new Set(
-        process.env.LOCATION?.split(",")
-          .map((type) => type.trim().toLowerCase())
-          // if it's not empty (truthy) nor a number we keep it
-          .filter((type) => type && !/\d/.test(type))
-      )
-    ) || [],
-  listingType: process.env.LISTING_TYPE
-    ? Array.from(
-        new Set(
-          process.env.LISTING_TYPE.split(",")
-            .map((type) => type.trim().toLowerCase())
-            .filter((type) => type && !/\d/.test(type))
+        configJSON.LOCATION?.map((location) =>
+          location.trim().toLowerCase()
+        ).filter(
+          (location) =>
+            // if it's not empty (truthy)
+            location &&
+            // nor contains numbers we keep it
+            !/\d/.test(location) &&
+            // nor contains only special characters
+            /^[^a-zA-Z0-9]*$/.test(location)
         )
       )
-    : [],
-  maxPrice: Number(process.env.MAX_PRICE || "0"),
-  minSize: Number(process.env.MIN_SIZE || "0"),
-  radius: Number(process.env.RADIUS || "1"),
-  interval: Number(process.env.INTERVAL || "15"), // Defaults to 15 minutes
-  customReplyRoom: process.env.CUSTOM_REPLY_ROOM || "",
-  customReplyApartment: process.env.CUSTOM_REPLY_APARTMENT || "",
-  filteredWords:
-    process.env.FILTERED_WORDS?.split("-").map((word) =>
-      word.trim().toLowerCase()
     ) || [],
+  listingType: Array.from(
+    new Set(
+      configJSON.LISTING_TYPE?.map((type) => type.trim().toLowerCase())
+        // if it's not empty (truthy) nor a number we keep it
+        .filter((type) => type && !/\d/.test(type))
+    )
+  ),
+  maxPrice: configJSON.MAX_PRICE || 0,
+  minSize: configJSON.MIN_SIZE || 0,
+  radius: configJSON.RADIUS || 1,
+  interval: configJSON.INTERVAL || 15, // Defaults to 15 minutes if not provided
+  customReplyRoom: configJSON.CUSTOM_REPLY.ROOM || '',
+  customReplyApartment: configJSON.CUSTOM_REPLY.APARTMENT || '',
+  filteredWords: Array.from(
+    new Set(
+      configJSON.FILTERED_WORDS?.map((word) =>
+        word.trim().toLowerCase()
+      ).filter((word) => word) || []
+    )
+  ),
 };
-
-// Helper functions
 
 // Launch Puppeteer
 (async () => {
   clearLogsAndConsole();
-  if (!process.env.KAMERNET_EMAIL) {
-    logMessage("Missing email address!", "error", "red");
+
+  if (!configJSON.KAMERNET_EMAIL) {
+    logMessage('Missing email address!', 'error', 'red');
     logMessage(
-      "Please make sure all the parematers are set correctly in the .env config file, beware of typos!",
-      "warning",
-      "yellow"
+      'Please make sure all the parematers are set correctly in the .json config file, beware of typos!',
+      'warning',
+      'yellow'
     );
     return;
   }
 
-  const email: string = process.env.KAMERNET_EMAIL;
+  const email: string = configJSON.KAMERNET_EMAIL;
   const password: string = await askForPassword();
   let browser: puppeteer.Browser;
   let page: puppeteer.Page;
@@ -86,8 +98,8 @@ const settings: Settings = {
       process.exit();
     }
     browser = await puppeteer.launch({
-      headless: isDev,
-      args: ["--disable-blink-features=AutomationControlled"],
+      headless: true,
+      args: ['--disable-blink-features=AutomationControlled'],
       pipe: true,
       defaultViewport: null,
     });
@@ -100,13 +112,13 @@ const settings: Settings = {
 
     if (!loginResult) {
       logMessage(
-        "Invalid credentials! Make sure your email and password are correct.",
-        "error",
-        "red"
+        'Invalid credentials! Make sure your email and password are correct.',
+        'error',
+        'red'
       );
       process.exit();
     } else {
-      logMessage("Successfully logged into Kamernet.", "success", "green");
+      logMessage('Successfully logged into Kamernet.', 'success', 'green');
     }
 
     // Accounting for multiple locations selected
@@ -114,7 +126,7 @@ const settings: Settings = {
       const searchURL: string = searchListings(settings, location);
       await wait(500, 1740);
       if (location === settings.location[0]) {
-        await page.goto(searchURL, { waitUntil: "load" });
+        await page.goto(searchURL, { waitUntil: 'load' });
       } else {
         await openTab(browser, searchURL);
       }
