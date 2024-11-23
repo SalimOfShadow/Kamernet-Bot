@@ -1,4 +1,5 @@
 # Kamernet-Bot
+![1000034127](https://github.com/user-attachments/assets/04f2efde-3e21-430e-b1ad-2f33d1ea5792)
 
 **Kamernet-Bot** is a bot designed to automatically reply to listings on the platform Kamernet. By using custom parameters, the bot processes new rental listings and responds automatically if all criteria are met.
 
