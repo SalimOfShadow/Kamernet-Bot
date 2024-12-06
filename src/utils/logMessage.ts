@@ -1,8 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-// TODO - ERASE THE CONTENT WHEN LAUNCHING THE PROGRAM THE FIRST TIME AND LOG COLORED MESSAGE TO THE CONSOLE
-
 export function logMessage(message: string, outcome?: string, color?: string) {
   const logFilePath: string = path.join(__dirname, '../../log.txt');
   const compeletedMessage: string = `[${

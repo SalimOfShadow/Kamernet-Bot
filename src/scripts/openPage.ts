@@ -4,7 +4,7 @@ import { wait } from '../utils/randomActions';
 export async function openTab(browser: Browser, link: string) {
   const newTab = await browser.newPage();
   try {
-    await newTab.goto(link, { waitUntil: 'domcontentloaded' });
+    await newTab.goto(link, { waitUntil: 'domcontentloaded', timeout: 0 });
     // TODO - FIGURE OUT IF
     // Error: Attempted to use detached Frame && TargetCloseError: Protocol error (Page.reload): Session closed. Most likely the page has been closed.
     // CAN BE TEMPORARILY FIXED WITH  await wait(randomNumber(1500, 2000));

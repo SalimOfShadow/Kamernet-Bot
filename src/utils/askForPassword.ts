@@ -48,7 +48,7 @@ export async function retrievePassword(): Promise<string> {
 }
 
 export async function askForPassword(): Promise<string> {
-  const password = await retrievePassword();
+  const password: string = await retrievePassword();
 
   if (password.length >= 8) {
     return password;

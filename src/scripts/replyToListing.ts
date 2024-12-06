@@ -88,10 +88,10 @@ async function contactLandlord(
   await page.type(messageField, settings.customReplyRoom || '');
 
   await page.click(sendMessageButton, { delay: randomMouseClickDelay() });
-  await page.waitForNavigation({ waitUntil: 'load' });
+  await page.waitForNavigation({ waitUntil: 'load', timeout: 0 });
   await wait(1000, 1200);
   logMessage(
-    `Successfully replied this listing: \x1b[37m   ${listingURL}   \x1b[0m`,
+    `Successfully replied to this listing: \x1b[37m   ${listingURL}   \x1b[0m`,
     'success',
     'green'
   );

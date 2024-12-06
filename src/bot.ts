@@ -124,7 +124,7 @@ const settings: Settings = {
       const searchURL: string = searchListings(settings, location);
       await wait(500, 1740);
       if (location === settings.location[0]) {
-        await page.goto(searchURL, { waitUntil: 'load' });
+        await page.goto(searchURL, { waitUntil: 'load', timeout: 0 });
       } else {
         await openTab(browser, searchURL);
       }
