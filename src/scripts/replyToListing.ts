@@ -1,9 +1,9 @@
-import { Page } from "puppeteer";
-import { Settings } from "../bot";
-import { randomMouseClickDelay, wait } from "../utils/randomActions";
-import { filterByDescription } from "./filterByDescription";
-import { handle404 } from "../utils/handle404";
-import { logMessage } from "../utils/logMessage";
+import { Page } from 'puppeteer';
+import { Settings } from '../bot';
+import { randomMouseClickDelay, wait } from '../utils/randomActions';
+import { filterByDescription } from './filterByDescription';
+import { handle404 } from '../utils/handle404';
+import { logMessage } from '../utils/logMessage';
 
 // TODO - Handle the case where only one listing is present
 
@@ -16,13 +16,13 @@ export async function replyToListing(page: Page, settings: Settings) {
   if (foundFilteredWord) return;
   // Close the page if a reply has already been sent
   const messageSentBox: string =
-    "#page-content > div.ListingFound_gridContainer__4AReK > div.ListingFound_rightColumn__e5LwV > section > div.Overview_root__4rJz_ > section:nth-child(4) > div";
+    '#page-content > div.ListingFound_gridContainer__4AReK > div.ListingFound_rightColumn__e5LwV > section > div.Overview_root__4rJz_ > section:nth-child(4) > div';
 
   if ((await page.$(messageSentBox)) !== null) {
     logMessage(
-      `Already replied to this listing: \x1b[37m   ${page.url()}   \x1b[0m`,
-      "skipped",
-      "yellow"
+      `Already replied to this listing: \x1b[37m     ${page.url()}   \x1b[0m`,
+      'skipped',
+      'yellow'
     );
     await page.close();
     return;
@@ -32,11 +32,11 @@ export async function replyToListing(page: Page, settings: Settings) {
 
   // Store the URL before navigating to the message page
 
-  const listingURL: string = await page.url();
+  const listingURL: string = page.url();
 
   // Navigate to the message page
   const contactLandlordButton: string =
-    "#page-content > div.ListingFound_gridContainer__4AReK > div.ListingFound_rightColumn__e5LwV > section > div.Overview_root__4rJz_ > section:nth-child(4) > a";
+    '#page-content > div.ListingFound_gridContainer__4AReK > div.ListingFound_rightColumn__e5LwV > section > div.Overview_root__4rJz_ > section:nth-child(4) > a';
 
   await page.waitForSelector(contactLandlordButton);
   await wait(1000, 2000);
@@ -49,7 +49,7 @@ export async function replyToListing(page: Page, settings: Settings) {
         button.click();
       }
     }, contactLandlordButton),
-    page.waitForNavigation({ waitUntil: "load", timeout: 0 }), // Wait for the page to fully load
+    page.waitForNavigation({ waitUntil: 'load', timeout: 0 }), // Wait for the page to fully load
   ]);
 
   // Fill out the reply field and send a message to the landlord
@@ -67,8 +67,8 @@ async function contactLandlord(
     return;
   }
   const sendMessageButton =
-    "body > main > div:nth-child(1) > div.container > div > form > div.barrier-questions__footer > button";
-  const messageField: string = "#Message";
+    'body > main > div:nth-child(1) > div.container > div > form > div.barrier-questions__footer > button';
+  const messageField: string = '#Message';
 
   await page.waitForSelector(messageField, { timeout: 0 });
 
@@ -85,15 +85,15 @@ async function contactLandlord(
   }
 
   // TODO - COPY AND PASTE THE TEXT INSTEAD OF TYPING
-  await page.type(messageField, settings.customReplyRoom || "");
+  await page.type(messageField, settings.customReplyRoom || '');
 
   await page.click(sendMessageButton, { delay: randomMouseClickDelay() });
-  await page.waitForNavigation({ waitUntil: "load" });
+  await page.waitForNavigation({ waitUntil: 'load' });
   await wait(1000, 1200);
   logMessage(
     `Successfully replied this listing: \x1b[37m   ${listingURL}   \x1b[0m`,
-    "success",
-    "green"
+    'success',
+    'green'
   );
   await wait(1000, 2000);
 
