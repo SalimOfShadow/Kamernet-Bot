@@ -47,26 +47,33 @@ Before using **Kamernet-Bot**, ensure you have the following software installed:
 
 ## Configuration
 
-The bot can be configured by modifying the config.json file.
-Locate your config.json file and open it with your favourite text editor program (Notepad will do just fine!).
-Insert your parameters on all the fields,you can use the provided config.default.json file as a template.
+The bot can be configured by modifying the config.yaml file.
+Locate your config.yaml file and open it with your favourite text editor program (Notepad will do just fine!).
+Insert your parameters on all the fields,you can use the provided config.default.yaml file as a template.
 
-### Example config.json file parameters:
+### Example config.yaml file parameters:
 
-    KAMERNET_EMAIL=your_email                                           # Your Kamernet username
-    LOCATION="Amsterdam"                                                # The desired location for the room (e.g., city or neighborhood)
-    LISTING_TYPE="room,apartment,studio,anti-squat,student-housing"     # The type of listings you are searching for
-    MAX_PRICE="1000"                                                    # Maximum price you're willing to pay for rent
-    MIN_SIZE=6                                                          # Minimum surface area in square meters
-    RADIUS=1                                                            # Maximum radius in km from your selected location
-    CUSTOM_REPLY_ROOM="Example Reply"                                   # Custom message for a single room ad
-    CUSTOM_REPLY_APARTMENT="Example Reply"                              # Custom message for a whole apartment ad
-    INTERVAL=15                                                         # Interval (in minutes) for checking new listings
-    FILTERED_WORDS="Dutch Only"                                         # Blacklist for words found in the descriptions
+
+```yaml
+KAMERNET_EMAIL: "your_email"                                           # Your Kamernet username
+LOCATION: "Amsterdam"                                                  # The desired location for the room (e.g., city or neighborhood)
+LISTING_TYPE: "room,apartment,studio,anti-squat,student-housing"       # The type of listings you are searching for
+MAX_PRICE: 1000                                                        # Maximum price you're willing to pay for rent
+MIN_SIZE: 6                                                            # Minimum surface area in square meters
+RADIUS: 1                                                              # Maximum radius in km from your selected location
+INTERVAL: 15                                                           # Interval (in minutes) for checking new listings
+CUSTOM_REPLY_ROOM: |                                                   # Custom message for a single room ad
+  Hello! I'm very interested in this room.                             
+  Could we schedule a viewing?
+CUSTOM_REPLY_APARTMENT: |                                              # Custom message for a whole apartment ad
+  Hello! I'm very interested in this apartment.                        
+  Could we schedule a viewing?
+FILTERED_WORDS: "Dutch Only"                                           # Blacklist for words found in the descriptions
+```
 
 ### Timings
 
-The bot will check the Kamernet website for new listings every 15 minutes by default,but this is purely arbitrary.If you wish so,you can modify the interval by adjusting the paramater inside the config.json file.
+The bot will check the Kamernet website for new listings every 15 minutes by default,but this is purely arbitrary.If you wish so,you can modify the interval by adjusting the paramater inside the config.yaml file.
 
 ## Usage
 
@@ -76,7 +83,7 @@ The bot will check the Kamernet website for new listings every 15 minutes by def
    npm start
    ```
 
-2. The bot will begin checking new listings on Kamernet.net and automatically reply to any that match the criteria defined in your .json file.
+2. The bot will begin checking new listings on Kamernet.net and automatically reply to any that match the criteria defined in your .yaml file.
 
 3. The bot will output logs to the terminal. It will also create a file named **logs.txt** with informations about replies sent, successful interactions, or errors encountered.
 
@@ -96,7 +103,7 @@ To run **Kamernet-Bot** using Docker:
    docker run -d Kamernet-Bot
    ```
 
-This will run **Kamernet-Bot** inside a Docker container, using the variables from your config.json file.
+This will run **Kamernet-Bot** inside a Docker container, using the variables from your config.yaml file.
 
 ## License
 
