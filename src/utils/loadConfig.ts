@@ -1,5 +1,6 @@
 import { Settings } from '../bot';
 import * as fs from 'fs';
+import * as YAML from 'yaml';
 
 export interface ConfigJSON {
   KAMERNET_EMAIL: string;
@@ -20,7 +21,8 @@ export interface ConfigJSON {
 export function loadConfigFile(filePath: string): ConfigJSON {
   try {
     const rawConfig = fs.readFileSync(filePath, 'utf-8');
-    const config = JSON.parse(rawConfig);
+    const config = YAML.parse(rawConfig);
+    console.log(config);
     return config;
   } catch (error: unknown) {
     if (error instanceof Error) {

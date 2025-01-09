@@ -29,7 +29,7 @@ export interface Settings {
 
 // Load configuration
 const configJSON: ConfigJSON = loadConfigFile(
-  path.resolve(__dirname, '../config.json')
+  path.resolve(__dirname, '../config.yaml')
 );
 // Convert config to `Settings` with appropriate handling for arrays and defaults
 const settings: Settings = {
