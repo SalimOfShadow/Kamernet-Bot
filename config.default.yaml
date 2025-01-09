@@ -1,0 +1,24 @@
+KAMERNET_EMAIL: 'your_email'
+LOCATION:
+  - 'Amsterdam'
+  - 'Rotterdam'
+LISTING_TYPE:
+  - 'room'
+  - 'apartment'
+  - 'studio'
+  - 'anti-squat'
+  - 'student-housing'
+MAX_PRICE: 1000
+MIN_SIZE: 6
+RADIUS: 1
+INTERVAL: 15
+CUSTOM_REPLY:
+  ROOM: |
+    Hello! I'm very interested in this room.
+    Could we schedule a viewing?
+  APARTMENT: |
+    Hello! I'm very interested in this apartment.
+    Could we schedule a viewing?
+FILTERED_WORDS:
+  - 'Dutch Only'
+  - 'Females Only'
