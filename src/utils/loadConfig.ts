@@ -22,7 +22,6 @@ export function loadConfigFile(filePath: string): ConfigJSON {
   try {
     const rawConfig = fs.readFileSync(filePath, 'utf-8');
     const config = YAML.parse(rawConfig);
-    console.log(config);
     return config;
   } catch (error: unknown) {
     if (error instanceof Error) {
