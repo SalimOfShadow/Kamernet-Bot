@@ -1,17 +1,17 @@
 // Imports
-import * as fs from 'fs';
-import * as path from 'path';
-import * as puppeteer from 'puppeteer';
-import { loginToKamernet } from './scripts/login';
-import { searchListings } from './scripts/searchListings';
-import { wait } from './utils/randomActions';
-import { handle404 } from './utils/handle404';
-import { openTab } from './scripts/openPage';
-import { clearLogsAndConsole, logMessage } from './utils/logMessage';
-import { processSingleTab } from './scripts/processSingleTab';
-import { validateSettings } from './utils/validateSettings';
-import { askForPassword } from './utils/askForPassword';
-import { ConfigJSON, loadConfigFile } from './utils/loadConfig';
+import * as fs from "fs";
+import * as path from "path";
+import * as puppeteer from "puppeteer";
+import { loginToKamernet } from "./scripts/login";
+import { searchListings } from "./scripts/searchListings";
+import { wait } from "./utils/randomActions";
+import { handle404 } from "./utils/handle404";
+import { openTab } from "./scripts/openPage";
+import { clearLogsAndConsole, logMessage } from "./utils/logMessage";
+import { processSingleTab } from "./scripts/processSingleTab";
+import { validateSettings } from "./utils/validateSettings";
+import { askForPassword } from "./utils/askForPassword";
+import { ConfigJSON, loadConfigFile } from "./utils/loadConfig";
 
 // Initialize settings
 
@@ -29,7 +29,7 @@ export interface Settings {
 
 // Load configuration
 const configJSON: ConfigJSON = loadConfigFile(
-  path.resolve(__dirname, '../config.yaml')
+  path.resolve(__dirname, "../config.yaml")
 );
 // Convert config to `Settings` with appropriate handling for arrays and defaults
 const settings: Settings = {
@@ -60,8 +60,8 @@ const settings: Settings = {
   minSize: configJSON.MIN_SIZE || 0,
   radius: configJSON.RADIUS || 1,
   interval: configJSON.INTERVAL || 15, // Defaults to 15 minutes if not provided
-  customReplyRoom: configJSON.CUSTOM_REPLY.ROOM || '',
-  customReplyApartment: configJSON.CUSTOM_REPLY.APARTMENT || '',
+  customReplyRoom: configJSON.CUSTOM_REPLY.ROOM || "",
+  customReplyApartment: configJSON.CUSTOM_REPLY.APARTMENT || "",
   filteredWords: Array.from(
     new Set(
       configJSON.FILTERED_WORDS?.map((word) =>
@@ -75,11 +75,11 @@ const settings: Settings = {
 (async () => {
   clearLogsAndConsole();
   if (!configJSON.KAMERNET_EMAIL) {
-    logMessage('Missing email address!', 'error', 'red');
+    logMessage("Missing email address!", "error", "red");
     logMessage(
-      'Please make sure all the parematers are set correctly in the .json config file, beware of typos!',
-      'warning',
-      'yellow'
+      "Please make sure all the parematers are set correctly in the .json config file, beware of typos!",
+      "warning",
+      "yellow"
     );
     return;
   }
@@ -97,7 +97,7 @@ const settings: Settings = {
     }
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--disable-blink-features=AutomationControlled'],
+      args: ["--disable-blink-features=AutomationControlled"],
       pipe: true,
       defaultViewport: null,
     });
@@ -110,13 +110,13 @@ const settings: Settings = {
 
     if (!loginResult) {
       logMessage(
-        'Invalid credentials! Make sure your email and password are correct.',
-        'error',
-        'red'
+        "Invalid credentials! Make sure your email and password are correct.",
+        "error",
+        "red"
       );
       process.exit();
     } else {
-      logMessage('Successfully logged into Kamernet.', 'success', 'green');
+      logMessage("Successfully logged into Kamernet.", "success", "green");
     }
 
     // Accounting for multiple locations selected
@@ -124,7 +124,7 @@ const settings: Settings = {
       const searchURL: string = searchListings(settings, location);
       await wait(500, 1740);
       if (location === settings.location[0]) {
-        await page.goto(searchURL, { waitUntil: 'load', timeout: 0 });
+        await page.goto(searchURL, { waitUntil: "load", timeout: 0 });
       } else {
         await openTab(browser, searchURL);
       }

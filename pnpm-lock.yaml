@@ -17,6 +17,9 @@ importers:
       puppeteer-core:
         specifier: npm:rebrowser-puppeteer-core@^23.3.1
         version: rebrowser-puppeteer-core@23.6.101
+      yaml:
+        specifier: ^2.7.0
+        version: 2.7.0
     devDependencies:
       nodemon:
         specifier: ^3.1.7
@@ -599,6 +602,11 @@ packages:
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
+
+  yaml@2.7.0:
+    resolution: {integrity: sha512-+hSoy/QHluxmC9kCIJyL/uyFmLmc+e5CFR5Wa+bpIhIj85LVb9ZH2nVnqrHoSvKogwODv0ClqZkmiSSaIH5LTA==}
+    engines: {node: '>= 14'}
+    hasBin: true
 
   yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
@@ -1212,6 +1220,8 @@ snapshots:
   ws@8.18.0: {}
 
   y18n@5.0.8: {}
+
+  yaml@2.7.0: {}
 
   yargs-parser@21.1.1: {}
 
