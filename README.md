@@ -1,3 +1,7 @@
+![TypeScript](https://img.shields.io/badge/TypeScript-v5.2.0-blue)  ![Puppeteer](https://img.shields.io/badge/Puppeteer-v19.0.0-blue) ![GitHub last commit](https://img.shields.io/github/last-commit/SalimOfShadow/Kamernet-Bot)  ![npm release](https://img.shields.io/npm/v/puppeteer) ![License](https://img.shields.io/github/license/SalimOfShadow/Kamernet-Bot)
+
+
+
 # Kamernet-Bot
 ![1000034127](https://github.com/user-attachments/assets/04f2efde-3e21-430e-b1ad-2f33d1ea5792)
 
