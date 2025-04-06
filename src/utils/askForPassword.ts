@@ -32,7 +32,6 @@ export async function retrievePassword(): Promise<string> {
           output.write("\b \b"); // Move cursor back, overwrite with space, and move back again
         }
       } else {
-        // Append character to password and mask it with '*'
         password += charStr;
         output.write("*");
       }
@@ -54,13 +53,11 @@ export async function askForPassword(): Promise<string> {
     return password;
   }
 
-  // Show warning message and do not clear the screen yet
   logMessage(
     "A Kamernet password needs to be at least 8 characters long",
     "warning",
     "yellow"
   ); // Display the warning
 
-  // Wait until the next attempt to clear the screen and show the prompt
   return askForPassword(); // Recursively call until valid password is provided
 }

@@ -1,6 +1,6 @@
-import { Settings } from '../bot';
-import * as fs from 'fs';
-import * as YAML from 'yaml';
+import { Settings } from "../bot";
+import * as fs from "fs";
+import * as YAML from "yaml";
 
 export interface ConfigJSON {
   KAMERNET_EMAIL: string;
@@ -20,7 +20,7 @@ export interface ConfigJSON {
 // Load configuration file and convert keys to camelCase
 export function loadConfigFile(filePath: string): ConfigJSON {
   try {
-    const rawConfig = fs.readFileSync(filePath, 'utf-8');
+    const rawConfig = fs.readFileSync(filePath, "utf-8");
     const config = YAML.parse(rawConfig);
     return config;
   } catch (error: unknown) {
@@ -28,6 +28,6 @@ export function loadConfigFile(filePath: string): ConfigJSON {
       console.error(`Failed to load configuration file: ${filePath}`);
       console.error(error.message);
     }
-    process.exit(1); // Exit the application if configuration loading fails
+    process.exit(1);
   }
 }

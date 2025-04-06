@@ -11,6 +11,7 @@ export function searchListings(settings: Settings, selectedLocation: string) {
 
   // Parsing the listing type
   const listingTypeArray: string[] = settings.listingType;
+
   const listingTypeString = listingTypeArray
     // %2C is the escape ASCII keycode for a comma (" , ")
     // 1 is Room - 2 is Apartment - 4 is Studio - 16 is Student Housing - 8 is Anti-squat

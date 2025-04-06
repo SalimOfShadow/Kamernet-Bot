@@ -31,7 +31,6 @@ export interface Settings {
 const configJSON: ConfigJSON = loadConfigFile(
   path.resolve(__dirname, "../config.yaml")
 );
-// Convert config to `Settings` with appropriate handling for arrays and defaults
 const settings: Settings = {
   location:
     Array.from(
@@ -40,7 +39,7 @@ const settings: Settings = {
           location.trim().toLowerCase()
         ).filter(
           (location) =>
-            // if it's not empty (truthy)
+            // if it's not empty
             location &&
             // nor contains numbers we keep it
             !/\d/.test(location) &&
@@ -104,6 +103,11 @@ const settings: Settings = {
 
     let pages: puppeteer.Page[] = await browser.pages();
     page = pages.length === 0 ? await browser.newPage() : pages[0];
+
+    // Manually setting the user agent to bypass headless check
+    const ua =
+      "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.3";
+    await page.setUserAgent(ua);
 
     // Login
     const loginResult: boolean = await loginToKamernet(page, email, password);

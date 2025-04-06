@@ -13,10 +13,10 @@ export async function replyToListing(page: Page, settings: Settings) {
   if (!pagePresent) {
     return false;
   }
-  // Close the page if a description contains one of the specified words
+
   const foundFilteredWord: boolean = await filterByDescription(page, settings);
   if (foundFilteredWord) return;
-  // Close the page if a reply has already been sent
+
   const messageSentBox: string =
     "#page-content > div.ListingFound_gridContainer__4AReK > div.ListingFound_rightColumn__e5LwV > section > div.Overview_root__4rJz_ > section:nth-child(4) > div";
 
@@ -30,9 +30,7 @@ export async function replyToListing(page: Page, settings: Settings) {
     return;
   }
 
-  await wait(1500, 2000); // Add a short wait after navigation
-
-  // Store the URL before navigating to the message page
+  await wait(1500, 2000);
 
   const listingURL: string = page.url();
 
@@ -51,10 +49,9 @@ export async function replyToListing(page: Page, settings: Settings) {
         button.click();
       }
     }, contactLandlordButton),
-    page.waitForNavigation({ waitUntil: "load", timeout: 0 }), // Wait for the page to fully load
+    page.waitForNavigation({ waitUntil: "load", timeout: 0 }),
   ]);
 
-  // Fill out the reply field and send a message to the landlord
   await contactLandlord(page, settings, listingURL, 0);
 }
 
