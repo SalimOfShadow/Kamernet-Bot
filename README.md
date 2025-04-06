@@ -1,4 +1,4 @@
-![TypeScript](https://img.shields.io/badge/TypeScript-v5.2.0-blue)  ![Puppeteer](https://img.shields.io/badge/Puppeteer-v19.0.0-blue) ![GitHub last commit](https://img.shields.io/github/last-commit/SalimOfShadow/Kamernet-Bot)  ![npm release](https://img.shields.io/npm/v/puppeteer) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![GitHub Issues](https://img.shields.io/github/issues/salimofshadow/kamernet-bot) ![GitHub closed issues](https://img.shields.io/github/issues-closed/salimofshadow/kamernet-bot)
+![TypeScript](https://img.shields.io/badge/TypeScript-v5.2.0-blue)  ![Puppeteer](https://img.shields.io/badge/Puppeteer-v19.0.0-blue) ![GitHub last commit](https://img.shields.io/github/last-commit/SalimOfShadow/Kamernet-Bot)  ![npm release](https://img.shields.io/npm/v/puppeteer) ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg) ![GitHub Issues](https://img.shields.io/github/issues/salimofshadow/kamernet-bot) ![GitHub closed issues](https://img.shields.io/github/issues-closed/salimofshadow/kamernet-bot)
 
 
 
