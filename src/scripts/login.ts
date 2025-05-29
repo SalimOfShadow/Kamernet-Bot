@@ -23,8 +23,11 @@ export async function loginToKamernet(
       "#page-header > nav > button:nth-child(4)";
     await page.waitForSelector(loginButtonMainPage, {
       visible: true,
-      timeout: 0,
+      timeout: 2000,
     });
+
+    console.log(loginButtonMainPage);
+
     await page.click(loginButtonMainPage, {
       delay: randomMouseClickDelay(),
     });
@@ -49,8 +52,11 @@ export async function loginToKamernet(
     // Click the login button and sign in
     await wait(1000, 2000);
 
+    // const loginButton: string =
+    //   "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch";
+    // FIXME: Hardcoded classes after changes, TODO: Go back to traversing the DOM
     const loginButton: string =
-      "#login > div.mdc-touch-target-wrapper > button > span.mdc-button__touch";
+      ".MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeLarge.MuiButton-textSizeLarge.MuiButton-disableElevation.HeaderDesktop_navLink__aPKaN.css-gqmp6b";
 
     await page.click(loginButton, { delay: randomMouseClickDelay() });
 
@@ -68,7 +74,6 @@ export async function loginToKamernet(
     return true;
   } catch (err: unknown) {
     if (err instanceof Error) {
-      // Now TypeScript knows `err` is of type `Error`, so it has the `message` property
       logMessage("An error has occurred", "error", "red");
       console.log(err);
       if (
